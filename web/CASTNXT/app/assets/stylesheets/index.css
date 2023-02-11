@@ -1,0 +1,25 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    background: url(https://images.unsplash.com/photo-1482053450283-3e0b78b09a70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80);
+}
+
+.heading {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 3vw;
+    padding-left: 15px;
+}
+.headings {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 1vw;
+    padding-left: 5px;
+}
+.bodytext {
+    font-family: 'Montserrat', cursive;
+    background-color: white;
+    margin-right: 180px;
+
+}
+
+

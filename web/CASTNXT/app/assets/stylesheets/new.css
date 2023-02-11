@@ -1,0 +1,145 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: url(https://images.unsplash.com/photo-1482053450283-3e0b78b09a70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80);
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Global Page Layout Syles */
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+}
+
+.logo {
+  height: auto;
+  
+  margin: 16px 0px;
+}
+
+.site-layout .site-layout-background {
+  background: #f0f2f5;
+}
+
+html,body {
+	height: 100%;
+}
+
+body.my-login-page {
+	background-color: white;
+	font-size: 14px;
+}
+
+.my-login-page .brand {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+	border-radius: 50%;
+	margin: 40px auto;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	position: relative;
+	z-index: 1;
+}
+
+.my-login-page .brand img {
+	width: 100%;
+}
+
+.my-login-page .card-wrapper {
+	width: 400px;
+}
+
+.my-login-page .card1 {
+	border-color: transparent;
+	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+}
+
+.my-login-page .card1.fat {
+	padding: 10px;
+	background-color: black;
+	height: 350px;
+    border-radius: 20px;
+}
+
+.my-login-page .card1 .card-title {
+	margin-bottom: 5px;
+	color: white;
+	text-align: center;
+	padding-top: 40px;
+	font-family: sans-serif;
+}
+
+.my-login-page .form-control {
+	border-width: 2.3px;
+}
+
+.my-login-page .form-group label {
+	width: 100%;
+}
+
+.my-login-page .btn.btn-block {
+	padding: 12px 10px;
+}
+
+.my-login-page .footer {
+	margin: 40px 0;
+	color: #888;
+	text-align: center;
+}
+
+@media screen and (max-width: 425px) {
+	.my-login-page .card-wrapper {
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.my-login-page .card1.fat {
+		padding: 0;
+	}
+
+	.my-login-page .card1.fat .card-body {
+		padding: 0;
+	}
+}
+.google-image{
+    display: flex;
+    justify-content: center;
+    padding-top:40px;
+    border-radius: 40px; 
+}
+.inside-card{
+    font-size: 15px;
+    color: lightgrey;
+    display: flex;
+    justify-content: center;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    margin-left: 80px;
+}

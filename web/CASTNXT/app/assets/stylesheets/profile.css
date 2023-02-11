@@ -1,0 +1,111 @@
+/*html, body {*/
+/*    height: 100%;*/
+/*    overflow: hidden;*/
+/*    margin: 0;*/
+/*    background: url(https://images.unsplash.com/photo-1482053450283-3e0b78b09a70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80);*/
+/*}*/
+/*#content {*/
+/*    height: 100%;*/
+/*}*/
+/*#left {*/
+/*    float: left;*/
+/*    width: 40%;*/
+/*    background: white;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    box-sizing: border-box;*/
+/*    padding: 10px;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.l1{*/
+/*    height: 40%;*/
+/*    padding-left: 15px;*/
+/*}*/
+
+/*.l2{*/
+/*    position: absolute;*/
+/*    top:60%;*/
+/*    height: 40%;*/
+/*    width: 40%;*/
+/*    padding-left: 15px;*/
+/*}*/
+/*#right1 {*/
+/*    float: left;*/
+/*    background: white;*/
+/*    height: 40%;*/
+/*    overflow: auto;*/
+/*    box-sizing: border-box;*/
+/*    padding: 10%;*/
+/*}*/
+/*#right2 {*/
+/*    float: left;*/
+/*    background: white;*/
+/*    height: 40%;*/
+/*    overflow: auto;*/
+/*    box-sizing: border-box;*/
+/*    padding: 10%;*/
+    
+/*}*/
+/*.heading {*/
+/*    font-family: 'Fredericka the Great', cursive;*/
+/*    font-size: 3vw;*/
+/*    padding-left: 15px;*/
+/*}*/
+/*.headings {*/
+/*    font-family: 'Fredericka the Great', cursive;*/
+/*    font-size: 1vw;*/
+/*    padding-left: 5px;*/
+/*}*/
+/*.bodytext {*/
+/*    font-family: 'Montserrat', cursive;*/
+/*}*/
+/*.sidebar {*/
+/*height: 100%;*/
+/*width: 250px;*/
+/*position: absolute;*/
+/*left: 0;*/
+/*top: 0;*/
+/*padding-top: 40px;*/
+/*background-color: black;*/
+/*color:white;*/
+/*}*/
+
+/*.sidebar a {*/
+/*padding: 8px;*/
+/*font-size: 20px;*/
+/*display: block;*/
+/*text-decoration: none;*/
+/*}*/
+
+/*.sidebar a:hover {*/
+/*cursor: pointer;*/
+/*opacity: .7;*/
+/*}*/
+
+/*.body-text {*/
+/*margin-right: 10%;*/
+/*margin-top:5%;*/
+/*font-size: 18px;*/
+
+/*}*/
+/*.section {*/
+/*    width:350px;*/
+/*    float:left;*/
+/*    padding:10px;*/
+/*}*/
+/*.wrapper {*/
+/*    display: flex;*/
+/*    width: 100%;*/
+/*    align-items: stretch;*/
+/*}*/
+/*.hidden {*/
+/*display:none;*/
+/*}*/
+/*.show {*/
+/*display:block;*/
+/*}*/
+
+/*.heading2{*/
+/*    padding-left: 25px;*/
+/*}*/

@@ -1,0 +1,97 @@
+.login-box {
+  border-radius: 10px;
+  background: #F2F3F4;
+  padding: 1%;
+}
+
+.login-background {
+  background: #F2F3F4;
+}
+
+
+#mui-14{
+  margin: auto;
+}
+
+.App {
+  text-align: center;
+  background-image: url('../assets/images/background.png');
+  margin-top: 3%;
+  margin-bottom: 0.5%;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.appbar {
+  align-items: right;
+}
+
+.sign-up-button {
+  width: 25%;
+  text-align: center;
+}
+
+background-style {
+  background-color: #FFFFFF;
+}
+
+/* Center tables for demo */
+table {
+  margin: 0 auto;
+}
+
+/* Default Table Style */
+table {
+  color: #333;
+  background: white;
+  border: 1px solid grey;
+  font-size: 12pt;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+table thead th,
+table tfoot th {
+  color: #777;
+  background: rgba(0,0,0,.1);
+  white-space: nowrap;
+}
+table caption {
+  padding:.5em;
+}
+table th,
+table td {
+  padding: .5em;
+  border: 1px solid lightgrey;
+  white-space: nowrap;
+}
+
+body {
+  overflow: auto;
+}
+
+.user-events {
+  margin-top: 1%;
+  border-radius: 10px;
+  background-color: white;
+  padding-top: 25px;
+  padding-bottom: 50px;
+}

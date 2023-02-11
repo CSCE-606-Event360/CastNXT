@@ -1,0 +1,15 @@
+.form-preview {
+  border-radius: 15px;
+  border: 2px solid black;
+  padding: 20px;
+}
+
+.preview-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.img-container {
+  max-width: 50vw;
+}
