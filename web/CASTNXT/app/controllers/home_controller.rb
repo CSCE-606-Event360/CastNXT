@@ -88,6 +88,22 @@ class HomeController < ApplicationController
       render json: {comment: e.message}, status: 500
     end
   end
+
+  # POST /home/forgotPassword
+  def forgotPassword
+    begin
+      if user_exists?(params[:email])
+        resetLink = generate_resetlink(params[:email])
+        UserMailer.password_reset(params[:email], resetLink)
+        render json: {comment: "A password reset email has been sent to your mailbox!"}, status: 400
+        return
+      else
+        render json: {comment: "No such email exists."}, status: 400
+      end
+    rescue Exception => e
+      render json: {comment: e.message}, status: 500
+    end
+  end
   
   private
   
@@ -109,6 +125,21 @@ class HomeController < ApplicationController
     end
     
     return false
+  end
+
+  def user_exists? email
+    if Auth.where(:email => email).present?
+      return true
+    end
+
+    return false
+  end
+
+  def generate_resetlink email
+    require 'securerandom'
+    rCode = SecureRandom.hex(32)
+    rsetCode = AuthReset.create(:resetuuid => rCode)
+    return rCode
   end
   
   def create_user params

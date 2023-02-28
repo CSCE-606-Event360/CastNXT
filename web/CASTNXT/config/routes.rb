@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :home, only: [] do
     post 'login', :on => :collection
     post 'signup', :on => :collection
+    post 'forgotPassword', :on => :collection
   end
   
   resources :user, only: [:index] do
