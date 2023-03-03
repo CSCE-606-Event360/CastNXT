@@ -9,10 +9,18 @@ RUN n 16.13.0
 RUN hash -r
 RUN npm install -g yarn
 
-ADD ./ /home/
+ADD Gemfile /home/Gemfile
+ADD Gemfile.lock /home/Gemfile.lock
 WORKDIR /home
 
 RUN bundle install
+RUN apt-get install -y supervisor
+
+ADD package.json /home/package.json
+ADD package-lock.json /home/package-lock.json
+RUN npm install
+RUN yarn install
+
 
 RUN rails webpacker:install
-RUN rails webpacker:compile
+RUN rails webpacker:compile   

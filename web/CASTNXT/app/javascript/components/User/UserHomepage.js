@@ -202,7 +202,7 @@ class UserHomepage extends Component {
                             this.state.eventDeletedFlag ? <MuiAlert onClick={() => (this.setState({eventDeletedFlag: false}))} severity="warning" elevation={6} variant="filled">Note: Certain events have been cancelled. Please check submissions for more details. Sorry for the inconvenience.</MuiAlert> : null
                         }
                         <div className="row">
-                            <h2> CastNXT Events </h2>
+                            <h2> CastNXT Events</h2>
                         </div>
                         <div className="row">
                             <div className="col-md-6 offset-md-3">

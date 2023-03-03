@@ -49,7 +49,7 @@ default: &default
 
 development:
   <<: *default
-  compile: true
+  compile: false
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
@@ -57,7 +57,9 @@ development:
     host: localhost
     port: 3035
     public: localhost:3035
-    hmr: false
+    hmr: true
+    hot: true
+    watch_content_base: true
     # Inline should be set to true if using HMR
     inline: true
     overlay: true
@@ -69,6 +71,7 @@ development:
     headers:
       'Access-Control-Allow-Origin': '*'
     watch_options:
+      poll: true
       ignored: '**/node_modules/**'
 
 

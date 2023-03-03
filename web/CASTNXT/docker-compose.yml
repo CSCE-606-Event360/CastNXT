@@ -8,9 +8,10 @@ services:
       - "27017:27017"
   web:
     build: .
-    command: "rails s -b 0.0.0.0 -p 3000"
+    command: "/usr/bin/supervisord -n"
     ports:
       - "3000:3000"
+      - "3035:3035"
     stdin_open: true
     tty: true
     links:
@@ -18,5 +19,7 @@ services:
     environment:
       DB_USER: root
       DB_PWD: example
+      RAILS_ENV: development
     volumes:
-      - ./:/castnxt
+      - ./:/home
+  
