@@ -13,3 +13,8 @@
 .img-container {
   max-width: 50vw;
 }
+
+.disabled-row {
+  opacity: 0.5;
+  pointer-events: none;
+}

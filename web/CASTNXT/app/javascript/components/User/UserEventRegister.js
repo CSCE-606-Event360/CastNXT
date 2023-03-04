@@ -37,6 +37,16 @@ class UserEventRegister extends Component {
                 disableSubmit: true
             })
         }
+
+        // Add validation
+        if (!this.validateFormData(this.state.formData)) {
+            this.setState({
+                status: false,
+                message: "Please fill out Name and Email Address",
+                disableSubmit: false
+            })
+            return
+        }
         
         axios.post(baseURL + "/slides", {
             formData: JSON.stringify(this.state.formData)
@@ -63,6 +73,16 @@ class UserEventRegister extends Component {
             }
         })
     }
+   
+     // Validate form data
+    validateFormData = (formData) => {
+       
+        if (!formData.name || !formData.email) {
+            return false
+        }
+        return true
+    }
+
     
     back = () => {
         window.location.href = "/user"
