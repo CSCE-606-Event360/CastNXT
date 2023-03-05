@@ -12,4 +12,8 @@ class UserMailer < ApplicationMailer
     def deleted_event(email, event_name, delete_time)
       mail(to: email, subject: "An event you registered for has been deleted.", body:"<!DOCTYPE html><body>Hi, Event #{event_name} has been removed by the organizer at #{delete_time}. Thanks for registering!<div></div></body>", content_type: "text/html")
     end
+
+    def password_reset(email, reset_link)
+      mail(to: email, subject: "Password Reset Request", body: "<!DOCTYPE html><body>Hi, a password reset request has been initiated, if this was not done by you, please contact an admin immediately. Please click on the following link to reset your email: #{reset_link} <div></div></body>", content_type:"text/html")
+    end
 end

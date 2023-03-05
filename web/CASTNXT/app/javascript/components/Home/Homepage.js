@@ -22,6 +22,7 @@ class Homepage extends Component {
             signUpRole: "USER",
             loginEmail: "",
             loginPassword: "",
+            forgotEmail: "",
             nameError: false,
             emailError: false,
             passwordError: false,
@@ -138,6 +139,33 @@ class Homepage extends Component {
             })
     }
 
+    forgot = () => {
+        let email = this.state.forgotEmail
+        
+        this.setState({
+            disableSubmit: true
+        })
+        //abc123
+        axios.post("/home/forgotPassword", {
+                email: email
+            })
+            .then((res) => {
+                this.setState({
+                    status: true,
+                    message: ""
+                })
+                
+                window.location.href = res.data.redirect_path;
+            })
+            .catch((err) => {
+                this.setState({
+                    disableSubmit: false,
+                    status: false,
+                    message: err.response.data.comment
+                })
+            })
+    }
+
     render() {
 
         let imageStyle = { 
@@ -159,6 +187,7 @@ class Homepage extends Component {
                                 <Tabs variant="fullWidth" value={this.state.tabValue} onChange={this.handleTabChange} centered>
                                     <Tab style={{focus: "color: #719ECE"}} label="Login" />
                                     <Tab label="Sign Up" />
+                                    <Tab label="Forgot Password" />
                                 </Tabs>
                                 <hr style={{ color: "black" }} />
                             </div>
@@ -215,6 +244,21 @@ class Homepage extends Component {
                                         onChange={this.handleChange} /><br /><br />
                                     
                                     <Button disabled={this.state.disableSubmit} className="sign-up-button" variant="contained" onClick={this.signUp}>Sign Up</Button>
+                                    
+                                    {(this.state.status !== "" && !this.state.status) &&
+                                        <div>
+                                            <br />
+                                            <span style={{color: "red"}}>{this.state.message}</span>
+                                        </div>
+                                    }
+                                </div>
+                            }
+
+                            {this.state.tabValue === 2 &&
+                                <div className="login-background">
+                                    <TextField focused style={{ width: "60%" }} name="forgotEmail" 
+                                        type="email" label="Email" value={this.state.forgotEmail} onChange={this.handleChange} /><br /><br />
+                                    <Button disabled={this.state.disableSubmit} variant="contained" onClick={this.forgot}>Reset Password</Button>
                                     
                                     {(this.state.status !== "" && !this.state.status) &&
                                         <div>
