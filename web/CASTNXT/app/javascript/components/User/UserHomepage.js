@@ -124,8 +124,12 @@ class UserHomepage extends Component {
             )
         } else {
             filteredTableData.map((event, i) => {
+                // check if the event date is in the past
+                const isPastEvent = new Date(event.date) < new Date();
+                // add a CSS class to the table row to disable it if the event is in the past
+                const rowClass = isPastEvent ? "disabled-row" : "";
                 rows.push(
-                    <TableRow key={i} onClick={() => {window.location.href="/user/events/"+event.id}}>
+                    <TableRow key={i} className={rowClass} onClick={() => {window.location.href="/user/events/"+event.id}}>
                         <TableCell align="center" >
                             <b><a href={"/user/events/" + event.id}>{event.title}</a></b>
                         </TableCell>
@@ -202,7 +206,7 @@ class UserHomepage extends Component {
                             this.state.eventDeletedFlag ? <MuiAlert onClick={() => (this.setState({eventDeletedFlag: false}))} severity="warning" elevation={6} variant="filled">Note: Certain events have been cancelled. Please check submissions for more details. Sorry for the inconvenience.</MuiAlert> : null
                         }
                         <div className="row">
-                            <h2> CastNXT Events </h2>
+                            <h2> CastNXT Events</h2>
                         </div>
                         <div className="row">
                             <div className="col-md-6 offset-md-3">

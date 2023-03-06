@@ -11,6 +11,7 @@ class DatePickerWrapper extends React.Component{
     this.state ={
       name: props.name,
       value: new Date(props.value).getTime()
+      
     }
   }
 
@@ -22,16 +23,19 @@ class DatePickerWrapper extends React.Component{
       }
     }
     this.setState({
-      value: new Date(newValue).toISOString()
+      value: new Date(newValue).toISOString().toString()
     })
     this.props.onChange(e);
   }
 
   render () {
+     const today = new Date();
+     today.setHours(0, 0, 0, 0);
     return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          label="Choose Date."
+          label="Choose Date"
+           minDate={today}
           value={this.state.value}
           onChange={(newValue) => this.onChange(newValue)}
           renderInput={(params) => <TextField {...params} />}

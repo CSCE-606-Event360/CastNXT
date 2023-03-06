@@ -105,9 +105,39 @@ class AdminCreateEvent extends Component {
     }
     
     onCreateEventClick = () => {
+       // Check if all required fields are filled
+        if (
+            !this.state.title ||
+            !this.state.description ||
+            !this.state.location ||
+            !this.state.statename ||
+            !this.state.eventdate ||
+            !this.state.category
+        ) {
+            this.setState({
+            status: false,
+            message: "Please fill out all required fields",
+            disableSubmit: false
+            });
+            return;
+        }
+
+        //Check if event date is in the future
+        const today = new Date();
+        const eventDate = new Date(this.state.eventdate);
+        if (eventDate < today) {
+            this.setState({
+            status: false,
+            message: "Please select a future date for the event",
+            disableSubmit: false
+            });
+            return;
+        }
+
         this.setState({
             disableSubmit: true
-        })
+        });
+
       
         axios.post("/admin/forms", {
             data:JSON.stringify({
@@ -183,7 +213,7 @@ class AdminCreateEvent extends Component {
                         <div className="container" style={{ backgroundColor: "white", height: "100%", width: "50vw", paddingTop: "1%" }}>
                             <p>Step 1</p>
                             <div className="input-fields">
-                              <TextField id="title-textfield" name="title" label="Event title" variant="outlined" onChange={this.handleChange} value={this.state.title} />
+                              <TextField id="title-textfield" name="title" label="Event title" variant="outlined" onChange={this.handleChange} value={this.state.title} required />
                               <TextField id="description-textfield" name="description" label="Event description" variant="outlined" onChange={this.handleChange} value={this.state.description} style={commonStyle}/>
                               <DatePickerWrapper id='eventdate' name='eventdate' variant='outlined' onChange={this.handleChange} value={this.state.eventdate} style={commonStyle} />
                               <FormControl fullWidth>
