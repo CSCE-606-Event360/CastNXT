@@ -7,7 +7,9 @@ services:
     ports:
       - "27017:27017"
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     command: "/usr/bin/supervisord -n"
     ports:
       - "3000:3000"
