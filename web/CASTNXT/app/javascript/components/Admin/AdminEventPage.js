@@ -11,6 +11,8 @@ import AdminClientDecks from "./AdminClientDecks";
 import AdminEventSummary from "./AdminEventSummary";
 import AdminFinalizedCandidates from "./AdminFinalizedCandidates";
 import AdminSubmittedDocs from "./AdminSubmittedDocs";
+import AdminEditEvent from "./AdminEditEvent";
+
 
 const tabToComponent = {
     0: AdminEventHome,
@@ -18,7 +20,8 @@ const tabToComponent = {
     2: AdminCreateClientStack,
     3: AdminClientDecks,
     4: AdminFinalizedCandidates,
-    5: AdminEventSummary
+    5: AdminEventSummary,
+    6: AdminEditEvent
 }
 
 class AdminEventPage extends Component {
@@ -72,7 +75,7 @@ class AdminEventPage extends Component {
                             <Box sx={{ width: "100%", marginRight: "-2%" }}>
                               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                                 <Tabs value={this.state.tabValue} onChange={this.handleTabChange} centered>
-                                    {["Home","Submitted Docs","Selected Docs", "Client Decks", "Finalized Decks", "Summary"].map((label) => {
+                                    {["Home","Submitted Docs","Selected Docs", "Client Decks", "Finalized Decks", "Summary", "Edit"].map((label) => {
                                         return <Tab key={label} label={label} />
                                     })}
                                 </Tabs>
