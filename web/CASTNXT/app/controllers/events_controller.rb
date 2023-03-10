@@ -32,6 +32,23 @@ class EventsController < ApplicationController
     @properties = {name: session[:userName], formIds: formIds}
   end
 
+  # PATCH /admin/events/:id
+  def edit
+    begin
+      if is_user_logged_in?("ADMIN")
+        eventId = params[:id]
+        event = get_event(eventId)
+
+        render json: {comment: "Edited Event Successfully!"}, status: 200
+      else
+        render json: {redirect_path: "/"}, status: 403
+      end
+      
+    rescue Exception
+      render json: {comment: "Internal Error!"}, status: 500
+    end
+  end
+
   # PUT /admin/events/:id
   def update
     begin
@@ -40,6 +57,8 @@ class EventsController < ApplicationController
         event = get_event(eventId)
         
         update_event_status(event, params[:status])
+        edit_event(event, params)
+
         puts("step 1")
         if(params[:status] == "DELETED")
           talents = Talent.all
@@ -266,6 +285,10 @@ class EventsController < ApplicationController
   def update_event_status event, status
     event.update(:status => status)
     event.update(:delete_time => Time.now)
+  end
+
+  def edit_event event, params
+    event.update(:title => params[:title], :description => params[:description], :location => params[:location], :statename => params[:statename], :eventdate => params[:eventdate], :category => params[:category], :is_paid_event => params[:is_paid_event])
   end
   
   def get_event eventId

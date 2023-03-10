@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   
   resources :admin, only: [:index] do
     collection do
-      resources :events, only: [:show, :update, :new, :create] do
+      resources :events, only: [:show, :update, :new, :create, :edit] do
         resources :negotiations, only: [:create]
         resources :slides, only: [:create]
       end
