@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import Homepage from '../components/Home/Homepage';
+import LandingPage from '../components/LandingPage/LandingPage';
 import UserHomepage from '../components/User/UserHomepage';
 import UserEventRegister from '../components/User/UserEventRegister';
 import AdminHomepage from '../components/Admin/AdminHomepage';
@@ -27,7 +28,7 @@ class Main extends Component {
     }
     
     render() {
-        return (
+      return (
         <div className="App">
           <div className="overflow-auto" style={{ "paddingTop": "1%" }}>
             <Router>
@@ -40,6 +41,9 @@ class Main extends Component {
                 <Route exact path="/client/events/*" render= {() => <ClientEventPage />} />
                 <Route exact path="/client" render= {() => <ClientHomepage />} />
                 <Route exact path="/" render= {() => <Homepage />} />
+                <landing>
+                  <Route exact path="/landing" render= {() => <LandingPage />} />
+                </landing>
               </Switch>
             </Router>
           </div>
