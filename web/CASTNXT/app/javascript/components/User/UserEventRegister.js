@@ -76,8 +76,8 @@ class UserEventRegister extends Component {
    
      // Validate form data
     validateFormData = (formData) => {
-       
-        if (!formData.name || !formData.email) {
+       console.log("formData:"+formData)
+        if (!formData.talentName || !formData.email) {
             return false
         }
         return true
