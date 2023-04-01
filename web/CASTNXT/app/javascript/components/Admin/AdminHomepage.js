@@ -42,6 +42,7 @@ class AdminHomepage extends Component {
                                 <b><a href={"/admin/events/"+event.id}>{event.title}</a></b>
                             </TableCell>
                             <TableCell align="center">{event.status}</TableCell>
+                            <TableCell align="center">{event.category}</TableCell>
                         </TableRow>
                     )
                 }
@@ -79,6 +80,7 @@ class AdminHomepage extends Component {
                                             <TableRow>
                                                 <TableCell align="center">Event</TableCell>
                                                 <TableCell align="center">Status</TableCell>
+                                                <TableCell align="center">category</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
