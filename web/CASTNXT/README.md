@@ -36,3 +36,17 @@ Tail the logs:
 ```
 heroku logs --tail -a <app_name>
 ```
+
+## Common Errors:
+Problem:
+Webpacker::Manifest::MissingEntryError
+
+Solution:
+bundle exec rake assets
+
+---
+Problem:
+Your Ruby version is X, but your Gemfile specified Y
+
+Solution:
+rvm reset
