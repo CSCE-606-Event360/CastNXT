@@ -11,6 +11,8 @@ class UserEventRegister extends Component {
         super(props)
         
         this.state = {
+            name:properties.name,
+            email:properties.email,
             eventId: properties.data.id,
             title: properties.data.title,
             description: properties.data.description,
@@ -25,6 +27,26 @@ class UserEventRegister extends Component {
             message: "",
             disableSubmit: false
         }
+        const newUiSchema = {
+            "talentName": {
+                "ui:default": this.state.name
+            },
+            "email": {
+                "ui:default": this.state.email
+            }
+        }
+        this.state.uischema = {...this.state.uischema, ...newUiSchema};
+        this.state.formData.talentName = this.state.name;
+    }
+
+
+
+    componentDidMount() {
+        // 更新状态
+        this.setState({
+                name: this.state.name,
+                email: this.state.email
+        });
     }
     
     submitForm = () => {

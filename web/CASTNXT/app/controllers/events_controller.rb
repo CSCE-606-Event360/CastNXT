@@ -57,7 +57,7 @@ class EventsController < ApplicationController
         event = get_event(eventId)
         
         update_event_status(event, params[:status])
-        edit_event(event, params)
+        #edit_event(event, params)
 
         puts("step 1")
         if(params[:status] == "DELETED")
@@ -121,7 +121,11 @@ class EventsController < ApplicationController
     data[:eventdate] = event.eventdate
     data[:category] = event.category
     data[:is_paid_event] = event.is_paid_event
-    
+
+    data['formData'] = {
+      name: session[:userName],
+      email: session[:userEmail]
+    }
     
     if talent_slide_exists?(eventId, session[:userId])
       slide = get_talent_slide(eventId, session[:userId])
@@ -136,7 +140,7 @@ class EventsController < ApplicationController
     end
    
     
-    @properties = {name: session[:userName], data: data , talentData: newTalentData}
+    @properties = {name: session[:userName],email:session[:userEmail], data: data , talentData: newTalentData}
   end
   
   def producer_event
