@@ -1,6 +1,8 @@
-import React, {Component} from "react"
+import React, {Component, Fragment} from "react"
 import Home from './components/pages/Home'
 import Layout from './layout/Layout'
+import Header from './components/misc/Header'
+
 
 class LandingPage extends Component {
     constructor(props) {
@@ -12,13 +14,15 @@ class LandingPage extends Component {
     }
 
     render() {
-        debugger
         return (
-            <div className="body-wrap">
-                <Layout>
-                    <Home/>
-                </Layout>
-            </div>
+            <Fragment>
+                <Header />
+                <div className="body-wrap">
+                    <Layout>
+                        <Home/>
+                    </Layout>
+                </div>
+            </Fragment>
         )
     }
 }
