@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 import './Footer.css'
 
-const MenuBar = () => {
+const Footer = () => {
     return (
         <footer >
             <div className="footer">
@@ -37,4 +37,4 @@ const MenuBar = () => {
     )
 }
 
-export default MenuBar;
+export default Footer;

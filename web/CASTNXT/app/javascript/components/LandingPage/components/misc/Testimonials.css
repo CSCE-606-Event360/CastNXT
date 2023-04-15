@@ -7,7 +7,8 @@ landing .cust-container {
     background-color: #fff;
     border-radius: 5px;
     padding: 16px;
-    margin: 16px 0
+    margin: 16px 0;
+    width: 400px;
 }
   
 landing .cust-container::after {
