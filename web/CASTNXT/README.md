@@ -22,19 +22,23 @@ rails s -p $PORT -b $IP
 Upgrade volume to >=15GB.
 
 Clone -> Go to web/CASTNXT
+
+### Create heroku project
 ```
 heroku login -i
 heroku container:login
-heroku create -a <app_name>
-```
-```
-heroku container:push web -a <app_name>
-heroku release web -a <app_name>
+heroku create -a castnxtspring
 ```
 
-Tail the logs:
+### Build repo into container and deploy to heroku
 ```
-heroku logs --tail -a <app_name>
+heroku container:push web -a castnxtspring
+heroku container:release web -a castnxtspring
+```
+
+### Tail the logs:
+```
+heroku logs --tail -a castnxtspring
 ```
 
 ## Common Errors:
@@ -49,4 +53,11 @@ Problem:
 Your Ruby version is X, but your Gemfile specified Y
 
 Solution:
-rvm reset
+rvm use Y
+
+---
+Problem:
+Warning! PATH is not properly set up, /home/user/.rvm/gems/ruby-3.1.2/bin is not at first place.
+
+rvm implode
+reinstall rvm using https://github.com/rvm/ubuntu_rvm
