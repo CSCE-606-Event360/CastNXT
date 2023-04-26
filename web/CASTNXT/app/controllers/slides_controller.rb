@@ -132,6 +132,13 @@ class SlidesController < ApplicationController
   def get_slide slideId
     return Slide.find_by(:_id => slideId)
   end
+
+  def get_slide_comments slideId
+    return Comment.where(:slide_id => slideId)
+  end
+
+  def get_slide_client_producer_comments slideId, clientId, producerId
+    return Comment.where(:slideId => slideId, :client_id => clientId, :producer_id => producer_id) 
   
   def get_talent_slide eventId, talentId
     return Slide.find_by(:event_id => eventId, :talent_id => talentId)

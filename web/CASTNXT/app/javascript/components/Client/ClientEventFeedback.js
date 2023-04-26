@@ -9,6 +9,10 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import axios from "axios";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 import Slide from "../Forms/Slide";
 
@@ -23,29 +27,36 @@ class ClientEventFeedback extends Component {
             entries: [],
             page:0,
             rowsPerPage: 1,
-            feedback: ""
+            feedback: "",
+            clientComments: [],
+            commentContent: "",
+            clientId: props.properties.data.clientId,
+            disableSubmit: false
         }
     }
     
     componentDidMount() {
-        let slides = this.state.slides
-        let entries = []
-        
-        for(var key in slides) {
+      let slides = this.state.slides
+      let entries = []
+      let clientComments = []
+      let slideComments = []
+      
+      for(var key in slides) {
         entries.push({
           ...slides[key],
           id: key,
         }) 
+
+        slideComments = []
+        for(var j = 0; j < slides[key].comments.length; j++){
+          slideComments.push(this.state.slides[key].comments[j])
+        }
+        clientComments.push(slideComments)
       }
         
       this.setState({
-          entries: entries
-      })
-    }
-    
-    handleChange = (e) => {
-      this.setState({
-        [e.target.name]: e.target.value
+          entries: entries,
+          clientComments: clientComments
       })
     }
     
@@ -60,14 +71,48 @@ class ClientEventFeedback extends Component {
         rowsPerPage: event.target.value
       })
     }
-    
-    handleFeedbackChange = (event, row) => {
-      this.setState({
-        feedback: event.target.value,
-        entries: this.state.entries
-      })
+
+    handleChange = (e, value) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
+    submitComment = (slideId) => {
+      const payload = {
+        content: this.state.commentContent,
+        owner: properties.name,
+        slide_id: slideId,
+        client_id: this.state.clientId
+      }
+
+      const baseURL = window.location.href.split("#")[0]
+      
+      this.setState({
+        disableSubmit: true
+      })
+      return axios.post(baseURL + "/slides/" + slideId + "/comments", payload)
+      .then((res) => {
+        this.setState({
+          status: true,
+          message: res.data.comment
+        })
+        setTimeout(() => {
+          window.location.href = ""
+        }, 2500)
+      })
+      .catch((err) => {
+        this.setState({
+          status: false,
+          message: "Failed to submit comment!"
+        })
+        
+        if(err.response.status === 403) {
+          window.location.href = err.response.data.redirect_path
+        }
+      })
+    }
+    
     render() {
         return(
             <div>
@@ -98,16 +143,30 @@ class ClientEventFeedback extends Component {
                                           
                                           <br />
                                           
-                                          <TextField
-                                            value={this.state.feedback}
-                                            onChange={() => this.handleFeedbackChange(event, row)}
-                                            placeholder="Enter your feedback here"
-                                            name="feedback"
-                                            fullWidth
-                                            label="Feedback"
-                                            multiline
-                                            rows={4}
-                                          />
+                                          Comments:
+                                          
+                                          <br />
+
+                                          <List>
+                                            {this.state.clientComments[this.state.page].map((comment) =>(
+                                              <ListItem
+                                                key = {comment.commentContent}
+                                              >
+                                              
+                                                <ListItemText primary={`${comment.commentContent}`} secondary={`${comment.commentOwner}`} />
+
+                                              </ListItem>
+
+                                            ))}
+                                          </List>
+
+                                          <br />   
+
+                                          <TextField id="title-textfield" name="commentContent" onChange={this.handleChange} defaultValue="Enter Comment" />
+
+                                          <br />
+
+                                          <Button disabled={this.state.disableSubmit} variant="contained" onClick={() => this.submitComment(row.id)}>Submit Comment</Button><br />
                                           
                                         </TableCell>
                                         
@@ -137,8 +196,6 @@ class ClientEventFeedback extends Component {
                     
                     <br />
 
-                    <Button variant="contained" onClick={this.submitFeedback}>Submit</Button>
-                    
                 </div>
                 
             </div>

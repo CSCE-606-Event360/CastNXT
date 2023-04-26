@@ -169,7 +169,7 @@ class EventsController < ApplicationController
     
     data[:clients] = build_producer_event_clients(event)
     data[:slides] = build_producer_event_slides(event)
-    
+
     @properties = {name: session[:userName], data: data}
   end
   
@@ -200,7 +200,8 @@ class EventsController < ApplicationController
     data[:eventdate] = event.eventdate
     data[:category] = event.category
     data[:is_paid_event] = event.is_paid_event
-    
+
+    data[:clientId] = client._id.to_str
     data[:slides] = build_client_event_slides(event, client)
     
     @properties = {name: session[:userName], data: data}
@@ -253,6 +254,11 @@ class EventsController < ApplicationController
       slideObject[:talentName] = talent.name
       slideObject[:formData] = JSON.parse(slide.data)
       slideObject[:curated] = slide.curated
+      slideObject[:comments] = []
+
+      slide.comment_ids.each do |commentId|
+        slideObject[:comments].push({:commentContent => get_comment(commentId).content, :commentOwner => get_comment(commentId).owner})        
+      end
       
       slidesObject[slideId.to_str] = slideObject
     end
@@ -270,6 +276,11 @@ class EventsController < ApplicationController
       slideObject = {}
       slideObject[:talentName] = talent.name
       slideObject[:formData] = JSON.parse(slide.data)
+      slideObject[:comments] = []
+
+      (slide.comment_ids & client.comment_ids).each do |commentId|
+        slideObject[:comments].push({:commentContent => get_comment(commentId).content, :commentOwner => get_comment(commentId).owner})        
+      end
       
       slidesObject[slideId.to_str] = slideObject
     end
@@ -321,6 +332,22 @@ class EventsController < ApplicationController
   
   def get_slide slideId
     return Slide.find_by(:_id => slideId)
+  end
+
+  def get_comment commentId
+    return Comment.find_by(:_id => commentId)
+  end
+
+  def get_slide_comment slideId
+    return Comment.find(:slide_id => slideId)
+  end  
+
+  def get_slide_comments slideId
+    return Comment.where(:slide_id => slideId)
+  end
+
+  def get_slide_client_comments slideId, clientId
+    return Comment.where(:slide_id => slideId, :client_id => clientId)
   end
   
   def negotiation_exists? clientId, eventId

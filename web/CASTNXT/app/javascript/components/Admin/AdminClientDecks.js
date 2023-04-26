@@ -14,6 +14,10 @@ import TableFooter from "@mui/material/TableFooter";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
+import TextField from "@mui/material/TextField";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
 import Slide from "../Forms/Slide";
 
@@ -33,7 +37,10 @@ class AdminClientDecks extends Component {
             rowsPerPage: 1,
             expandSlides: false,
             message: "",
-            status: ""
+            status: "",
+            clientComments: {},
+            commentContent: "",
+            disableSubmit: false
         }
     } 
     
@@ -42,6 +49,9 @@ class AdminClientDecks extends Component {
         let clients = this.state.clientList
         let slides = this.state.slides
         let clientDecks = {}
+        let clientComments = {}
+        let clientSlideComments = {}
+        
         
         for(var key in clients) {
           if(clients[key].slideIds.length > 0) {
@@ -50,7 +60,8 @@ class AdminClientDecks extends Component {
             )
             
             clientDecks[key] = []
-            
+            clientComments[key] = []
+
             clients[key].finalizedIds = clients[key].finalizedIds === null ? [] : clients[key].finalizedIds 
   
             for(var i=0; i<clients[key].slideIds.length; i++) {
@@ -61,13 +72,23 @@ class AdminClientDecks extends Component {
                 preference: (i+1),
                 preferenceSubmitted: clients[key].preferenceSubmitted
               })
+
+              clientSlideComments = []
+
+              for(var j=0; j<this.state.slides[clients[key].slideIds[i]].comments.length; j++){
+                clientSlideComments.push(
+                  this.state.slides[clients[key].slideIds[i]].comments[j]
+                )
+              }
+              clientComments[key].push(clientSlideComments)
             } 
           }
         }
         
         this.setState({
             clientOptions: clientOptions,
-            clientDecks: clientDecks
+            clientDecks: clientDecks,
+            clientComments: clientComments
         })
     }
     
@@ -88,6 +109,12 @@ class AdminClientDecks extends Component {
       this.setState({
         rowsPerPage: event.target.value
       })
+    }
+
+    handleChange = (e, value) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
     
     expandSlides = () => {
@@ -148,6 +175,43 @@ class AdminClientDecks extends Component {
         clientDecks: clientDecks
       })
     }
+
+    submitComment = (slideId) => {
+      const payload = {
+        content: this.state.commentContent,
+        owner: properties.name,
+        slide_id: slideId,
+        client_id: this.state.client
+      }
+
+      const baseURL = window.location.href.split("#")[0]
+      
+      this.setState({
+        disableSubmit: true
+      })
+
+      return axios.post(baseURL + "/slides/" + slideId + "/comments", payload)
+      .then((res) => {
+        this.setState({
+          status: true,
+          message: res.data.comment
+        })
+        setTimeout(() => {
+          window.location.href = ""
+        }, 2500)
+      })
+      .catch((err) => {
+        this.setState({
+          status: false,
+          message: "Failed to submit comment!"
+        })
+        
+        if(err.response.status === 403) {
+          window.location.href = err.response.data.redirect_path
+        }
+      })
+    }
+
     
     render() {
         let selectStyle = {
@@ -270,7 +334,38 @@ class AdminClientDecks extends Component {
                                                   formData={row.formData}
                                                   children={true}
                                                 />
+
+                                                <br />
+
+                                                Comments:
+                                                
+                                                <br />     
+
+                                                
+                                                <List>
+                                                  {this.state.clientComments[this.state.client][this.state.page].map((comment) =>(
+                                                    <ListItem
+                                                      key = {comment.commentContent}
+                                                    >
+                                                    
+                                                      <ListItemText primary={`${comment.commentContent}`} secondary={`${comment.commentOwner}`} />
+
+                                                    </ListItem>
+
+                                                  ))}
+                                                </List>
+                                                
+
+                                                <br />   
+
+                                                <TextField id="title-textfield" name="commentContent" onChange={this.handleChange} defaultValue="Enter Comment" />
+
+                                                <br />
+
+                                                <Button disabled={this.state.disableSubmit} variant="contained" onClick={() => this.submitComment(row.slideId)}>Submit Comment</Button><br />
+
                                               </TableCell>
+
                                               
                                             </TableRow>
                                           )
