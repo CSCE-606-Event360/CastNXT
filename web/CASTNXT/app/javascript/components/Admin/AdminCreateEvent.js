@@ -140,7 +140,7 @@ class AdminCreateEvent extends Component {
 
       
         axios.post("/admin/forms", {
-            data:JSON.stringify({
+                data:JSON.stringify({
                 schema: JSON.parse(this.state.schema),
                 uischema: JSON.parse(this.state.uischema)
             })

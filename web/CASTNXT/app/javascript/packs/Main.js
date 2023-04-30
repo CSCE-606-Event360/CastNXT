@@ -40,10 +40,7 @@ class Main extends Component {
                 <Route exact path="/admin" render= {() => <AdminHomepage />} />
                 <Route exact path="/client/events/*" render= {() => <ClientEventPage />} />
                 <Route exact path="/client" render= {() => <ClientHomepage />} />
-                <Route exact path="/" render= {() => <Homepage />} />
-                <landing>
-                  <Route exact path="/landing" render= {() => <LandingPage />} />
-                </landing>
+                <Route exact path="/home" render= {() => <Homepage />} />
               </Switch>
             </Router>
           </div>
