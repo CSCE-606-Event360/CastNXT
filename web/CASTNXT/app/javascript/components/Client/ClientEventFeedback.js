@@ -13,6 +13,8 @@ import axios from "axios";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import JsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 import Slide from "../Forms/Slide";
 
@@ -112,9 +114,27 @@ class ClientEventFeedback extends Component {
         }
       })
     }
+
+    generatePDF = () => {
+
+      const report = new JsPDF('landscape','px','a4');
+      // report.html(document.querySelector('report')).then(() => {
+      //     report.save('report.pdf');
+      // },
+      // html2canvas: {scale:0.1}
+      // )
+
+      report.html(document.querySelector('report'), {
+        callback: function (report) {
+          report.save();
+        },      
+        html2canvas:{scale:0.5}
+      });
+    }
     
     render() {
         return(
+          <report>
             <div>
                 <div style={{marginTop: "1%"}}>
 
@@ -162,12 +182,18 @@ class ClientEventFeedback extends Component {
 
                                           <br />   
 
+                                          
+
                                           <TextField id="title-textfield" name="commentContent" onChange={this.handleChange} defaultValue="Enter Comment" />
 
                                           <br />
 
                                           <Button disabled={this.state.disableSubmit} variant="contained" onClick={() => this.submitComment(row.id)}>Submit Comment</Button><br />
                                           
+                                          <br />
+
+                                          <Button onClick={() => this.generatePDF()}>Export PDF</Button>
+
                                         </TableCell>
                                         
                                       </TableRow>
@@ -199,6 +225,7 @@ class ClientEventFeedback extends Component {
                 </div>
                 
             </div>
+          </report>
         )
     }
 }
