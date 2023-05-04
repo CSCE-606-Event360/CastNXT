@@ -24,6 +24,7 @@ const LocationFilter = (props) => {
     <FormControl fullWidth>
         <InputLabel id="state-select-label" style={commonStyle}>Event State</InputLabel>
         <Select onChange ={((e) => onValueChange(e.target.value, cityName))} labelId="state-select-label" id="state-select" name="stateName"  label="Event state" value={stateName} variant="outlined" style={commonStyle}>
+        <MenuItem>All</MenuItem>
         {
             UsStates.map((state) =>{
                 return (
@@ -37,6 +38,7 @@ const LocationFilter = (props) => {
     <FormControl fullWidth>
         <InputLabel id="city-select-label" style={commonStyle}>Event Location</InputLabel>
         <Select onChange ={((e) => onValueChange(stateName, e.target.value))} labelId="city-select-label" id="state-select" name="location" label="Event Location" value={cityName} variant="outlined" style={commonStyle}>
+        <MenuItem>All</MenuItem>
         {
             getCities(stateName).map((city) =>{
                 return (
