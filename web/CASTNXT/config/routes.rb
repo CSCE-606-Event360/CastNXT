@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
 
-  root 'home#index'
-  
+  root 'home#landing_page'
+  get 'home', to: 'home#index'
   get '/logout', to: 'application#logout'
-  get '/landing', to: 'home#index'
 
   get '/validation/:id', to: 'home#validation'
   

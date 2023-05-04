@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CASTNXT</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag  'landing_page', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+          <%= link_to root_path, class: 'navbar-brand' do %>
+            <strong>CastNXT</strong>
+          <% end %>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#login">Login</a>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Home', root_path, class: 'nav-link active', aria: { current: 'page' } %>
+              </li>
+              
+              
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+            </ul>
+            <div class="btn-group dropstart ">
+              <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" >
+                Dropstart
+              </button>
+              <ul class="dropdown-menu">
+                <!-- Dropdown menu links -->
+                <li><a class="dropdown-item" href="#login">Login</a></li>
+
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+      <div class="container">
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-info-transparent">
+          <div class="col-md-5 p-lg-5 mx-auto my-5">
+            <h1 class="display-4 fw-bold text-white">CastNXT</h1>
+            <p class="lead fw-bold text-white">Streamline talent recruitment for events and shows with our automated platform. Auditions, placement, replacement, negotiation, handover, and payment—all in one place. Join us for a seamless experience.!</p>
+          </div>
+          <div class="product-device shadow-sm d-none d-md-block"></div>
+          <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+        </div>
+
+        <div class="container-fluid col-xxl-8 px-0 py-5">
+          <div class="row flex-lg-row-reverse align-items-center g-5 py-2">
+            <div class="col-10 col-sm-12 col-lg-7">
+              <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="https://cdn.pixabay.com/photo/2017/04/10/16/55/live-music-2219036__480.jpg" class="d-block w-100 img-fluid" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2020/01/15/17/38/fireworks-4768501__480.jpg" class="d-block w-100 img-fluid" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://cdn.pixabay.com/photo/2020/06/08/16/19/woman-5275027__480.jpg" class="d-block w-100 img-fluid" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <p class="lead ">At <strong>CastNXT</strong>, we understand that planning an event is a complex task. Managing guest lists, ticket sales, and RSVPs can be overwhelming and stressful. That's why we have created a comprehensive tool that automates the guest list management process and streamlines ticket sales, so you can focus on planning the perfect event.
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr class="my-2" />
+        <section class="mb-5" id="features">
+          <h1 class="text-center display-5 fw-bold lh-1 mb-5 mt-5"> Sign Up </h1>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-12 text-center">
+              <h3 class="my-4">Admin</h3>
+              <p class="mb-md-3 lead fs-6">Looking to simplify talent recruitment for your event? Our automated platform handles the entire process, from auditions to payment. Save time and effort while finding the perfect talent for your show. Join us today.
+              </p>
+              <a class="btn btn-primary fw-bold" href="/home">Login / Register</a>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 text-center">
+              <h3 class="my-4">Client</h3>
+              <p class="mb-md-3 lead fs-6">Find the perfect talent for your show with our automated platform. Effortlessly browse, audition, negotiate, and hire—all in one place. Join us to discover top-tier talent and make your show a hit. </p>
+              <a class="btn btn-primary fw-bold" href="/home">Login / Register</a>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 text-center">
+              <h3 class="my-4">Users</h3>
+              <p class="mb-md-3 lead fs-6">Ready to showcase your talent? Register for events on our automated platform. Effortlessly audition, negotiate, and get paid—all in one place. Join us to take your performance to the next level.</p>
+              <a class="btn btn-primary fw-bold" href="/home">Login / Register</a>
+            </div>
+          </div>
+        </section>
+        <hr class="my-5" />
+      </div>
+  </body>
+</html>

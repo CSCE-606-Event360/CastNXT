@@ -104,6 +104,13 @@ class HomeController < ApplicationController
       render json: {comment: e.message}, status: 500
     end
   end
+
+  def landing_page
+    puts "tests"
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
+  end
   
   private
   

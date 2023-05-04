@@ -13,7 +13,6 @@ import Main from './Main'
 document.title = "CASTNXT"
 
 document.addEventListener('DOMContentLoaded', () => {
-  debugger
   ReactDOM.render(
     <Main name="CASTNXT" />,
     document.body.appendChild(document.createElement('div')),
