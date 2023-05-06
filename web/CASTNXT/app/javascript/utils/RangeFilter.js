@@ -5,6 +5,7 @@ import { getGridNumericColumnOperators } from "@material-ui/data-grid";
 
 const SUBMIT_FILTER_STROKE_TIME = 500;
 
+/*
 const InputNumberInterval = (props) => {
     const { item, applyValue, focusElementRef = null } = props;
   
@@ -88,24 +89,19 @@ InputNumberInterval.propTypes = {
       }),
     ]),
     item: PropTypes.shape({
-      /**
-       * The column from which we want to filter the rows.
-       */
+      //The column from which we want to filter the rows.
       columnField: PropTypes.string.isRequired,
-      /**
-       * Must be unique.
-       * Only useful when the model contains several items.
-       */
+
+      // Must be unique.
+      // Only useful when the model contains several items.
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      /**
-       * The name of the operator we want to apply.
-       * Will become required on `@mui/x-data-grid@6.X`.
-       */
+
+      // The name of the operator we want to apply.
+      // Will become required on `@mui/x-data-grid@6.X`.
       operatorValue: PropTypes.string,
-      /**
-       * The filtering value.
-       * The operator filtering function will decide for each row if the row values is correct compared to this value.
-       */
+
+      // The filtering value.
+      // The operator filtering function will decide for each row if the row values is correct compared to this value.
       value: PropTypes.any,
     }).isRequired,
 };
@@ -118,6 +114,8 @@ const labelMapper = {
   '<': 'Lesser than',
   '<=': 'Lesser or Equal to'
 }
+
+*/
 
 const getNumberOperators = () =>{
   const operators = getGridNumericColumnOperators();

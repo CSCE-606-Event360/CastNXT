@@ -1,6 +1,7 @@
 import renderer from 'react-test-renderer';
 import ClientEventSummary from '../../../../app/javascript/components/Client/ClientEventSummary';
 import {propsDefault, PROPERTIES_CLIENT_SUMMARY} from '../../__mocks__/props.mock';
+import ReactTestUtils from 'react-dom/test-utils';
 
 const mockAppBar = jest.fn();
 jest.mock('../../../../app/javascript/components/Navbar/Header')
@@ -25,4 +26,10 @@ test('Client Summary Page Table', ()=>{
     )
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
+})
+
+test('ClientEventSummary eventHandlers',()=>{
+    const view = ReactTestUtils.renderIntoDocument(<ClientEventSummary properties = {PROPERTIES_CLIENT_SUMMARY}/>);
+
+    view.updatePreferences();
 })

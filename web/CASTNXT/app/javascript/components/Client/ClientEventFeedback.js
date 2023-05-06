@@ -49,11 +49,14 @@ class ClientEventFeedback extends Component {
           id: key,
         }) 
 
-        slideComments = []
-        for(var j = 0; j < slides[key].comments.length; j++){
-          slideComments.push(this.state.slides[key].comments[j])
+        if (slides[key].comments) {
+          // TypeError: Cannot read properties of undefined (reading 'length')
+          slideComments = []
+          for(var j = 0; j < slides[key].comments.length; j++){
+            slideComments.push(this.state.slides[key].comments[j])
+          }
+          clientComments.push(slideComments)
         }
-        clientComments.push(slideComments)
       }
         
       this.setState({
@@ -83,7 +86,7 @@ class ClientEventFeedback extends Component {
     submitComment = (slideId) => {
       const payload = {
         content: this.state.commentContent,
-        owner: properties.name,
+        owner: this.props.properties.name,
         slide_id: slideId,
         client_id: this.state.clientId
       }
@@ -168,7 +171,7 @@ class ClientEventFeedback extends Component {
                                           <br />
 
                                           <List>
-                                            {this.state.clientComments[this.state.page].map((comment) =>(
+                                            {(this.state.clientComments[this.state.page] || []).map((comment) =>(
                                               <ListItem
                                                 key = {comment.commentContent}
                                               >

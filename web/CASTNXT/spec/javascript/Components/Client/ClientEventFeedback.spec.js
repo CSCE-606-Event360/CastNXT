@@ -52,8 +52,9 @@ test('ClientEventFeedback Load', ()=>{
 
 test('ClientEventFeedback ', ()=>{
     const view = ReactTestUtils.renderIntoDocument(<ClientEventFeedback properties={PROPERTIES_CLIENT_FEEDBACK}/>);
-    view.handleFeedbackChange(e)
+    // view.handleFeedbackChange(e) // TypeError: view.handleFeedbackChange is not a function
     view.handleChangeRowsPerPage(e)
     view.handleChange(e)
     view.handleChangePage(e, 1)
+    view.submitComment("abc123")
 })

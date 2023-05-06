@@ -58,3 +58,8 @@ test('User Home Page Load With Aceepting Event Status', ()=>{
     const view = ReactTestUtils.renderIntoDocument(<UserHomepage />);
     view.renderSubmittedEventList()
 })
+
+test('UserHomePage eventHandlers', ()=> {
+    const view = ReactTestUtils.renderIntoDocument(<UserHomepage />);
+    view.onSubmit()
+})
