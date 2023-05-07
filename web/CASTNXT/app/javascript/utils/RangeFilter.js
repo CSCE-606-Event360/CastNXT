@@ -106,6 +106,8 @@ InputNumberInterval.propTypes = {
     }).isRequired,
 };
 
+*/
+
 const labelMapper = {
   '=': 'Equals to',
   '!=': 'Not Equal to',
@@ -114,8 +116,6 @@ const labelMapper = {
   '<': 'Lesser than',
   '<=': 'Lesser or Equal to'
 }
-
-*/
 
 const getNumberOperators = () =>{
   const operators = getGridNumericColumnOperators();

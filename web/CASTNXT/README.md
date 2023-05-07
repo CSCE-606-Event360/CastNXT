@@ -1,6 +1,7 @@
 ## Steps for Local:
 Clone -> Go to web/CASTNXT
 ```
+/bin/blash --login
 rvm install “ruby-2.6.6”
 bundle install
 ```
