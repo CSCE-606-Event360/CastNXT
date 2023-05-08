@@ -24,7 +24,7 @@ Upgrade volume to >=15GB.
 
 Clone -> Go to web/CASTNXT
 
-### Create heroku project
+### Create heroku project (unnecessary)
 ```
 heroku login -i
 heroku container:login
@@ -33,6 +33,7 @@ heroku create -a castnxtspring
 
 ### Build repo into container and deploy to heroku
 ```
+heroku container:login
 heroku container:push web -a castnxtspring
 heroku container:release web -a castnxtspring
 ```
