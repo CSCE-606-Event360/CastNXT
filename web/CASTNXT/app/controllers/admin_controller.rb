@@ -31,6 +31,7 @@ class AdminController < ApplicationController
   end
   
   def get_producer_event_ids producerId
-    return Producer.find_by(:_id => producerId).event_ids
+    # return Producer.find_by(:_id => producerId).event_ids
+    return UnifiedUser.find_by(:_id => producerId).producer_events
   end
 end

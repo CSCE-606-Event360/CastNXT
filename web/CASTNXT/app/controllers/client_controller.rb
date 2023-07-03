@@ -30,6 +30,7 @@ class ClientController < ApplicationController
   end
   
   def get_client_event_ids clientId
-    return Client.find_by(:_id => clientId).event_ids
+    # return Client.find_by(:_id => clientId).event_ids
+    return UnifiedUser.find_by(:_id => clientId).event_ids
   end
 end

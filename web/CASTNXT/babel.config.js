@@ -77,7 +77,6 @@ module.exports = function(api) {
           async: false
         }
       ]
-    ].filter(Boolean),
-
+    ].filter(Boolean)
   }
 }

@@ -28,7 +28,8 @@ class SlidesController < ApplicationController
         if "ACCEPTING".casecmp? event.status
           if is_new_slide?(eventId, talentId)
             create_slide(eventId, talentId, formData)
-            userTalent = Talent.find_by(:_id => talentId)
+            # userTalent = Talent.find_by(:_id => talentId)
+            userTalent = UnifiedUser.find_by(:_id => talentId)
             userTalent.update(:talentData => formData)
            
             render json: {comment: "Registered successfully!"}, status: 201
@@ -41,7 +42,8 @@ class SlidesController < ApplicationController
             
             update_slide_data(slide, data)
             
-            userTalent = Talent.find_by(:_id => talentId)
+            userTalent = UnifiedUser.find_by(:_id => talentId)
+            # userTalent = Talent.find_by(:_id => talentId)
             userTalent.update(:talentData => formData)
            
             render json: {comment: "Updated registration!"}, status: 200
@@ -150,7 +152,7 @@ class SlidesController < ApplicationController
   end
   
   def create_slide eventId, talentId, data
-    Slide.create(:event_id => eventId, :talent_id => talentId, :curated => false, :submission_status => "UNDER REVIEW", :data => data)
+    Slide.create!:event_id => eventId, :talent_id => talentId, :curated => false, :submission_status => "UNDER REVIEW", :data => data)
   end
   
   def update_slide_data(slide, data)
@@ -170,7 +172,7 @@ class SlidesController < ApplicationController
   end
   
   def create_negotiaton eventId, clientId, intermediateSlideIds
-    Negotiation.create(:event_id => eventId, :client_id => clientId, :intermediateSlides => intermediateSlideIds, :finalSlides => [])
+    Negotiation.create!(:event_id => eventId, :client_id => clientId, :intermediateSlides => intermediateSlideIds, :finalSlides => [])
   end
   
   def update_negotiaton_intermediates negotiation, intermediateSlideIds

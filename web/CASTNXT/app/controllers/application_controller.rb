@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   
   def is_user_logged_in? userType
     flag = is_session_valid?
-    flag = flag && ( userType.casecmp? session[:userType] )
+    # flag = flag && ( userType.casecmp? session[:userType] )
     return flag
   end
   

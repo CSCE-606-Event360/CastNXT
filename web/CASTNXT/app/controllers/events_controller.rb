@@ -87,7 +87,7 @@ class EventsController < ApplicationController
   def create
     begin
       if is_user_logged_in?("ADMIN")
-        create_event(session[:userId], params)
+        result = create_event(session[:userId], params)
         render json: {comment: "Successfully created Event!"}, status: 201
       else
         render json: {redirect_path: "/"}, status: 403
@@ -131,7 +131,8 @@ class EventsController < ApplicationController
       slide = get_talent_slide(eventId, session[:userId])
       data[:formData] = JSON.parse(slide.data)
     end
-    userTalent = Talent.find_by(:_id => session[:userId])
+    userTalent = UnifiedUser.find_by(:_id => session[:userId])
+    # userTalent = Talent.find_by(:_id => session[:userId])
     
     if userTalent[:talentData].nil?
       newTalentData = {}
@@ -327,7 +328,8 @@ class EventsController < ApplicationController
   end
   
   def get_talent talentId
-    return Talent.find_by(:_id => talentId)
+    return UnifiedUser.find_by(:_id => talentId)
+    # return Talent.find_by(:_id => talentId)
   end
   
   def get_slide slideId
@@ -378,7 +380,18 @@ class EventsController < ApplicationController
     timeval = Time.now
     #puts("here here yess")
     #puts(timeval)
-    Event.create(:form_id => params[:form_id], :producer_id => producerId, :status => "ACCEPTING", :title => params[:title], :description => params[:description], :location => params[:location], :statename => params[:statename], :eventdate => params[:eventdate], :category => params[:category], :delete_time => "timeval", :is_paid_event => params[:is_paid_event])
-
+    Event.create!(
+      :form_id => params[:form_id], 
+      :producer_id => producerId,
+      :status => "ACCEPTING", 
+      :title => params[:title], 
+      :description => params[:description], 
+      :location => params[:location], 
+      :statename => params[:statename], 
+      :eventdate => params[:eventdate], 
+      :category => params[:category], 
+      :delete_time => "timeval", 
+      :is_paid_event => params[:is_paid_event]
+    )
   end
 end

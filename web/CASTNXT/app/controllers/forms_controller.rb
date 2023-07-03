@@ -38,6 +38,9 @@ class FormsController < ApplicationController
   end
   
   def create_form producerId, params
-    Form.create(:producer_id => producerId, :data => params[:data])
+    Form.create!(
+      :producer_id => producerId, 
+      :data => params[:data]
+    )
   end
 end

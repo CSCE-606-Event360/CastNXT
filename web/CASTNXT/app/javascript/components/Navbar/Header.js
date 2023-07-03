@@ -6,6 +6,9 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios"
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,6 +35,23 @@ const logoutUser = () => {
 
 const Header = (props) => {
     const classes = useStyles();
+    const [page, setPage] = React.useState('');
+
+    const goUser = (event) => {
+        setPage("/user");
+        let target = window.location.protocol + "//" + window.location.host + "/user";
+        window.location.href = target;
+    };
+    const goClient = (event) => {
+        setPage("/client");
+        let target = window.location.protocol + "//" + window.location.host + "/client";
+        window.location.href = target;
+    };
+    const goAdmin = (event) => {
+        setPage("/admin");
+        let target = window.location.protocol + "//" + window.location.host + "/admin";
+        window.location.href = target;
+    };
     return (
         <div className="header">
             <header>
@@ -41,6 +61,20 @@ const Header = (props) => {
                             <img src={require("../../assets/images/logo.png")} alt="FASHIONXT" style={{ width: "200px" }} />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}></Typography>
+                        <PopupState variant="popover" popupId="demo-popup-menu">
+                            {(popupState) => (
+                                <React.Fragment>
+                                <Button variant="contained" {...bindTrigger(popupState)}>
+                                    Switch Role
+                                </Button>
+                                <Menu {...bindMenu(popupState)}>
+                                    <MenuItem onClick={goUser}>Talent</MenuItem>
+                                    <MenuItem onClick={goClient}>Client</MenuItem>
+                                    <MenuItem onClick={goAdmin}>Producer</MenuItem>
+                                </Menu>
+                                </React.Fragment>
+                            )}
+                        </PopupState>
                         <Typography color="inherit" style={{marginRight: "1%"}}>Welcome, {properties?.name}</Typography>
                         <Typography><Button id='logoutBtn' variant="contained" onClick={logoutUser}>Logout</Button></Typography>
                         

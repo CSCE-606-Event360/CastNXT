@@ -52,7 +52,9 @@ class UserController < ApplicationController
   private
   
   def get_talent talentId
-    return Talent.find_by(:_id => talentId)
+    # return Talent.find_by(:_id => talentId)
+    return UnifiedUser.find_by(:_id => talentId)
+    # TODO: .attributes.slice
   end
   
   def get_event_negotiations eventId

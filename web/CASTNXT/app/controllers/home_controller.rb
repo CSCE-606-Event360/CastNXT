@@ -8,8 +8,15 @@ class HomeController < ApplicationController
   
   # GET /validation/:id
   def validation
-    u1 = Auth.find_by(:_id => params[:id])
+    # u1 = Auth.find_by(:_id => params[:id])
+    u1 = UnifiedUser.find_by(:_id => params[:id])
     typeuser = u1.user_type
+    u1.is_valid = true
+    u1.save
+    puts u1.email
+    return redirect_to root_path
+
+    # old/ignored
     begin
       if "ADMIN".casecmp? typeuser
         user = Producer.find_by(:_id => params[:id])
@@ -28,7 +35,8 @@ class HomeController < ApplicationController
         auth.is_valid = true
         auth.save
       else
-        user = Talent.find_by(:_id => params[:id])
+        # user = Talent.find_by(:_id => params[:id])
+        user = UnifiedUser.find_by(:_id => params[:id])
         user.is_valid = true
         user.save
         auth = Auth.find_by(:_id => params[:id])
@@ -61,6 +69,7 @@ class HomeController < ApplicationController
     rescue => exception
       puts exception.message
       render json: {comment: "Internal Error!"}, status: 500
+      raise
     end
   end
   
@@ -115,27 +124,32 @@ class HomeController < ApplicationController
   private
   
   def get_user email, password
-    return Auth.find_by(:email => email, :password => password)
+    # return Auth.find_by(:email => email, :password => password)
+    return UnifiedUser.find_by(:email => email, :password => password)
+    # TODO: use hashed passwords, DO NOT STORE PLAINTEXT
   end
   
   def new_user? email
-    if Auth.where(:email => email).blank?
+    # if Auth.where(:email => email).blank?
+    if UnifiedUser.where(:email => email).blank?
       return true
     end
-    
+
     return false
   end
   
   def correct_user? email, password
-    if Auth.where(:email => email, :password => password).present?
+    # if Auth.where(:email => email, :password => password).present?
+    if UnifiedUser.where(:email => email, :password => password).present?
       return true
     end
-    
+
     return false
   end
 
   def user_exists? email
-    if Auth.where(:email => email).present?
+    # if Auth.where(:email => email).present?
+    if UnifiedUser.where(:email => email).present?
       return true
     end
 
@@ -145,19 +159,29 @@ class HomeController < ApplicationController
   def generate_resetlink email
     require 'securerandom'
     rCode = SecureRandom.hex(32)
-    rsetCode = AuthReset.create(:resetuuid => rCode)
+    rsetCode = AuthReset.create!(:resetuuid => rCode)
     return rCode
   end
   
   def create_user params
     puts (params)
-    user = Auth.create(:name => params[:name], :email => params[:email], :password => params[:password], :user_type => params[:type], :is_valid => true)
+    # user = Auth.create(:name => params[:name], :email => params[:email], :password => params[:password], :user_type => params[:type], :is_valid => true)
+    user = UnifiedUser.create!(
+      :name => params[:name], 
+      :email => params[:email], 
+      :password => params[:password], 
+      :user_type => params[:type], 
+      :is_valid => true
+    )
+    return
+
+    # ignored
     if "ADMIN".casecmp? params[:type]
-      Producer.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
+      Producer.create!(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
     elsif "CLIENT".casecmp? params[:type]
-      Client.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
+      Client.create!(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
     else
-      Talent.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
+      Talent.create!(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
     end
   end
 
