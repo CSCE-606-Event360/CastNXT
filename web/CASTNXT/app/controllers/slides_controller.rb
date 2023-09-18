@@ -152,7 +152,7 @@ class SlidesController < ApplicationController
   end
   
   def create_slide eventId, talentId, data
-    Slide.create!:event_id => eventId, :talent_id => talentId, :curated => false, :submission_status => "UNDER REVIEW", :data => data)
+    Slide.create!(:event_id => eventId, :talent_id => talentId, :curated => false, :submission_status => "UNDER REVIEW", :data => data)
   end
   
   def update_slide_data(slide, data)

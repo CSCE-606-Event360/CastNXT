@@ -3,10 +3,10 @@ development:
     default:
       database: castnxt_development
       hosts:
-        - localhost:27017
+        - db:27017
       options:
-        user: 'rootuser'
-        password: '&b9Sl0^mNI2fBSgz'
+        user: 'root'
+        password: 'example'
         auth_source: admin
         server_selection_timeout: 30
   options:

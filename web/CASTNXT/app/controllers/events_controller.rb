@@ -24,9 +24,12 @@ class EventsController < ApplicationController
     forms.each do |form|
       fd = []
       km = get_events(form._id)
-      fd << form._id.to_str
+      # if (km[0]!=nil)
+        fd << form._id.to_str
       fd << km[0].title.to_str
+
       formIds << fd
+      # end
     end
 
     @properties = {name: session[:userName], formIds: formIds}
@@ -220,7 +223,7 @@ class EventsController < ApplicationController
   def build_producer_event_clients event
     clientsObject = {}
     
-    clients = Client.all
+    clients = Clients.all
     clients.each do |client|
       clientObject = {}
       clientObject[:name] = client.name
