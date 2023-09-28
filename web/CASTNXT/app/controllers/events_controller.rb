@@ -55,9 +55,12 @@ class EventsController < ApplicationController
       if is_user_logged_in?("ADMIN")
         eventId = params[:id]
         event = get_event(eventId)
-        
-        update_event_status(event, params[:status])
-        #edit_event(event, params)
+        if params[:status]== "DELETED" || params[:status] == "ACCEPTING" || params[:status] == "REVIEWING" || params[:status] == "FINALIZED"
+          update_event_status(event, params[:status])
+        else 
+          params[:status] = event[:status]
+          edit_event(event, params)
+        end
 
         puts("step 1")
         if(params[:status] == "DELETED")
