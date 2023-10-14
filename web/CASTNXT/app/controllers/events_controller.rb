@@ -22,11 +22,19 @@ class EventsController < ApplicationController
 
     forms = get_producer_forms(session[:userId])
     forms.each do |form|
+      # logger.debug form.inspect
       fd = []
       km = get_events(form._id)
-      fd << form._id.to_str
-      fd << km[0].title.to_str
-      formIds << fd
+      
+      if(km[0]!= nil)
+        fd << form._id.to_str
+        fd << km[0].title.to_str
+        formIds << fd
+        logger.debug fd
+      else
+        form.destroy()
+      end
+
     end
 
     @properties = {name: session[:userName], formIds: formIds}
