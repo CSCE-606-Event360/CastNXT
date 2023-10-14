@@ -16,12 +16,10 @@ services:
       - "3035:3035"
     stdin_open: true
     tty: true
-    links:
-      - db
     environment:
       DB_USER: root
       DB_PWD: example
-      RAILS_ENV: production
+      RAILS_ENV: development
     volumes:
       - ./:/home
   
