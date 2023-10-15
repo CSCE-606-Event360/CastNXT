@@ -54,7 +54,8 @@ class SlidesController < ApplicationController
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    rescue Exception
+    rescue Exception => e
+      logger.info e
       render json: {comment: "Internal Error!"}, status: 500
     end
   end
@@ -152,7 +153,7 @@ class SlidesController < ApplicationController
   end
   
   def create_slide eventId, talentId, data
-    Slide.create!:event_id => eventId, :talent_id => talentId, :curated => false, :submission_status => "UNDER REVIEW", :data => data)
+    Slide.create!(:event_id => eventId, :talent_slides => talentId, :curated => false, :submission_status => "UNDER REVIEW", :data => data)
   end
   
   def update_slide_data(slide, data)

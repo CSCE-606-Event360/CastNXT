@@ -1,12 +1,12 @@
 development:
   clients:
     default:
-      database: castnxt_development
+      database: castnxt_development_unified
       hosts:
         - localhost:27017
       options:
-        user: 'rootuser'
-        password: '&b9Sl0^mNI2fBSgz'
+        user: 'root'
+        password: 'example'
         auth_source: admin
         server_selection_timeout: 30
   options:
