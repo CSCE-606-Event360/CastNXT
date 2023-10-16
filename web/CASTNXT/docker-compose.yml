@@ -16,6 +16,8 @@ services:
       - "3035:3035"
     stdin_open: true
     tty: true
+    links:
+      - db
     environment:
       DB_USER: root
       DB_PWD: example

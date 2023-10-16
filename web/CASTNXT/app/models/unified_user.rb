@@ -9,7 +9,8 @@ class UnifiedUser
     field :is_active, type: Boolean # , default: true <- default means it is set to true every time an update to UnifiedUser occurs if is_active is not explicitly stated.
     field :password, type: String
     field :user_type, type: String
-  
+    field :talentData, type: String
+
   
     # client
     has_and_belongs_to_many :event_ids, class_name: 'Event', foreign_key: 'clients'

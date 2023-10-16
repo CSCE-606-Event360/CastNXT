@@ -1,7 +1,7 @@
 development:
   clients:
     default:
-      database: castnxt_development
+      database: castnxt_development_unified
       hosts:
         - localhost:27017
       options:

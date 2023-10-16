@@ -4,10 +4,13 @@ class EventsController < ApplicationController
   # GET /user/events/:id
   def show
     if "ADMIN".casecmp? session[:userType]
+      logger.info "2\n\n"
       producer_event
     elsif "CLIENT".casecmp? session[:userType]
+      logger.info "3\n\n"
       client_event
     else
+      logger.info "4\n\n"
       user_event
     end
   end
@@ -24,12 +27,9 @@ class EventsController < ApplicationController
     forms.each do |form|
       fd = []
       km = get_events(form._id)
-      # if (km[0]!=nil)
-        fd << form._id.to_str
+      fd << form._id.to_str
       fd << km[0].title.to_str
-
       formIds << fd
-      # end
     end
 
     @properties = {name: session[:userName], formIds: formIds}
@@ -106,7 +106,7 @@ class EventsController < ApplicationController
     unless is_user_logged_in?("USER")
       return redirect_to root_path
     end
-    
+
     eventId = params[:id]
     if unknown_event?(eventId)
       return
@@ -223,7 +223,7 @@ class EventsController < ApplicationController
   def build_producer_event_clients event
     clientsObject = {}
     
-    clients = Clients.all
+    clients = Client.all
     clients.each do |client|
       clientObject = {}
       clientObject[:name] = client.name
