@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {FormBuilder} from "@ginkgo-bioworks/react-json-schema-form-builder";
+import Webcam from "react-webcam";
 
 import Slide from "./Slide.js";
 import "./Forms.css";
@@ -26,19 +27,41 @@ class FormBuilderContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileKey: ''
+      fileKey: '',
+      webcamRef: null
     }
   }
 
-  changeSchema = (dataSchemaObj, uiSchemaObj, fileKey, editedKey) =>{
+  // Callback to set the reference to the webcam component
+  setWebcamRef = (webcamRef) => {
+    this.setState({ webcamRef });
+  }
+
+  // Method to capture an image from the webcam
+  captureImageFromCamera = () => {
+    const webcamRef = this.state.webcamRef;
+    if (webcamRef) {
+      const imageSrc = webcamRef.getScreenshot();
+      // 'imageSrc' contains the captured image in a base64 data URL format
+
+      // Handle the captured image as needed in your application
+      console.log("Captured image data URL:", imageSrc);
+      return imageSrc
+    }
+  }
+
+  changeSchema = (dataSchemaObj, uiSchemaObj, fileKey, editedKey,capturedImageFile) =>{
     const idx = uiSchemaObj['ui:order'].findIndex((ele) => ele===fileKey);
     uiSchemaObj['ui:order'][idx] = editedKey; 
     delete Object.assign(uiSchemaObj, {[editedKey]: uiSchemaObj[fileKey]})[fileKey];
     delete Object.assign(dataSchemaObj.properties, {[editedKey]: dataSchemaObj.properties[fileKey]})[fileKey];
+    if (capturedImageFile) {
+      dataSchemaObj.properties[editedKey].default = capturedImageFile;
+    }
     return {dataSchemaObj, uiSchemaObj}
   }
 
-  checkUiSchemaForFiles = (dataSchema,uiSchema) => {
+  checkUiSchemaForFiles = (dataSchema,uiSchema,capturedImageFile) => {
     let dataSchemaObj = JSON.parse(dataSchema);
     let uiSchemaObj = JSON.parse(uiSchema);
     const fileKey = Object.keys(uiSchemaObj).find((key) => !Array.isArray(uiSchemaObj[key]) && uiSchemaObj[key]["ui:widget"] === 'file'); 
@@ -46,12 +69,12 @@ class FormBuilderContainer extends Component {
     let changedSchema = {dataSchemaObj, uiSchemaObj}
     if(fileKey && !this.state.fileKey){
       const editedKey = `file_${fileKey}`;
-      changedSchema = this.changeSchema(dataSchemaObj, uiSchemaObj, fileKey, editedKey);
+      changedSchema = this.changeSchema(dataSchemaObj, uiSchemaObj, fileKey, editedKey,capturedImageFile);
     } else if(!fileKey && this.state.fileKey){
       //Check if a prev file key has been updated.
       //Remove edited key, and revert.
       const editedKey = `file_${this.state.fileKey}`;
-      changedSchema = this.changeSchema(dataSchemaObj, uiSchemaObj, editedKey, this.state.fileKey);
+      changedSchema = this.changeSchema(dataSchemaObj, uiSchemaObj, editedKey, this.state.fileKey,capturedImageFile);
     }
     this.setState({
       fileKey
@@ -62,7 +85,8 @@ class FormBuilderContainer extends Component {
   onFormBuilderChange = (newSchema, newUiSchema) => {
     console.log(newSchema);
     console.log(newUiSchema);
-    const { dataSchemaObj, uiSchemaObj } =  this.checkUiSchemaForFiles(newSchema,newUiSchema);
+    const capturedImageFile = this.captureImageFromCamera();
+    const { dataSchemaObj, uiSchemaObj } =  this.checkUiSchemaForFiles(newSchema,newUiSchema,capturedImageFile);
     this.props.onSchemaChange(JSON.stringify(dataSchemaObj));
     this.props.onUISchemaChange(JSON.stringify(uiSchemaObj));
   }
@@ -72,6 +96,14 @@ class FormBuilderContainer extends Component {
       <>
         <h4>Add fields to the following form.</h4>
         <div className="container" style={{ backgroundColor: "white", height: "100%", textAlign: 'left'}}>
+          {/* Delete this - just for testing */}
+        <Webcam
+          audio={false}
+          ref={this.setWebcamRef}
+          screenshotFormat="image/jpeg"
+        />
+        <button onClick={this.captureImageFromCamera}>Capture Image from Camera</button>
+      
         <div>
           <FormBuilder
             schema={this.props.schema}
