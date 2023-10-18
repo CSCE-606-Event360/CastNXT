@@ -28,19 +28,19 @@ Clone -> Go to web/CASTNXT
 ```
 heroku login -i
 heroku container:login
-heroku create -a castnxtspring
+heroku create -a castnxtfall
 ```
 
 ### Build repo into container and deploy to heroku
 ```
 heroku container:login
-heroku container:push web -a castnxtspring
-heroku container:release web -a castnxtspring
+heroku container:push web -a castnxtfall
+heroku container:release web -a castnxtfall
 ```
 
 ### Tail the logs:
 ```
-heroku logs --tail -a castnxtspring
+heroku logs --tail -a castnxtfall
 ```
 
 ## Running tests:

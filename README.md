@@ -34,3 +34,6 @@ https://drive.google.com/file/d/1ltjPFTOFTjmW5PaYCQwqj9crIkx1Y_8r/view
 # Iteration Reports: 
 There is 1 iteration report present at
 https://github.com/tamu-edu-students/CastNXT_Spring2023/tree/main/documentation/Spring2023
+
+# Heroku Deployment:
+CastNXT:[https://castnxtfall-4acce6c18be3.herokuapp.com/](https://castnxtfall-4acce6c18be3.herokuapp.com/)
