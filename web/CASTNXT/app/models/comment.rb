@@ -5,6 +5,6 @@ class Comment
   field :owner, type: String 
 
   belongs_to :slide
-  belongs_to :client
+  belongs_to :client,  class_name: 'UnifiedUser', foreign_key: 'client_comments'
 
 end

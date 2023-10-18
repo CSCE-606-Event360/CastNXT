@@ -149,6 +149,7 @@ GEM
       rack
     rack-test (2.0.2)
       rack (>= 1.3)
+    railroady (1.6.0)
     rails (5.2.8.1)
       actioncable (= 5.2.8.1)
       actionmailer (= 5.2.8.1)
@@ -257,6 +258,7 @@ DEPENDENCIES
   mongoid
   puma (~> 5.0)
   rack-cors (~> 0.3.1)
+  railroady
   rails (~> 5.2.7)
   sass-rails (>= 6)
   selenium-webdriver

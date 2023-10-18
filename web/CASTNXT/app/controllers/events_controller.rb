@@ -3,14 +3,12 @@ class EventsController < ApplicationController
   # GET /client/events/:id
   # GET /user/events/:id
   def show
-    if "ADMIN".casecmp? session[:userType]
-      logger.info "2\n\n"
+    current_role=request.path.split('/')[1]
+    if "admin".casecmp? current_role
       producer_event
-    elsif "CLIENT".casecmp? session[:userType]
-      logger.info "3\n\n"
+    elsif "client".casecmp? current_role
       client_event
     else
-      logger.info "4\n\n"
       user_event
     end
   end
@@ -223,7 +221,7 @@ class EventsController < ApplicationController
   def build_producer_event_clients event
     clientsObject = {}
     
-    clients = Client.all
+    clients = UnifiedUser.all
     clients.each do |client|
       clientObject = {}
       clientObject[:name] = client.name
@@ -252,7 +250,7 @@ class EventsController < ApplicationController
     
     event.slide_ids.each do |slideId|
       slide = get_slide(slideId)
-      talent = get_talent(slide.talent_id)
+      talent = get_talent(slide.talent_slides)
       
       slideObject = {}
       slideObject[:talentName] = talent.name
