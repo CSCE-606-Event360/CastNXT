@@ -2,9 +2,10 @@ class SlidesController < ApplicationController
   # POST /admin/events/:id/slides
   # POST /user/events/:id/slides
   def create
-    if "ADMIN".casecmp? session[:userType]
+    current_role=request.path.split('/')[1]
+    if "admin".casecmp? current_role
       create_producer_slide
-    elsif "CLIENT".casecmp? session[:userType]
+    elsif "client".casecmp? current_role
       create_client_slide
     else
       create_user_slide
@@ -65,7 +66,7 @@ class SlidesController < ApplicationController
       if is_user_logged_in?("ADMIN")
         eventId = params[:event_id]
         event = get_event(eventId)
-        
+        logger.info "done \n\n"
         update_event_clients(event, params[:clients])
         update_event_slides(params[:slides])
         
@@ -73,7 +74,9 @@ class SlidesController < ApplicationController
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    rescue Exception
+    rescue Exception =>e 
+      logger.debug e
+      logger.debug "\n\n"
       render json: {comment: "Internal Error!"}, status: 500
     end
   end
@@ -87,33 +90,35 @@ class SlidesController < ApplicationController
   
   def update_event_clients event, data
     eventSlideIds = get_event_slide_ids(event)
-    clients = Client.all
+    clients = UnifiedUser.all
     
     clients.each do |client|
-      clientId = client._id.to_str
+      clientId = client._id
       otherEventSlides = []
       
-      client.slide_ids.each do |slideId|
-        unless eventSlideIds.include? slideId.to_str
-          otherEventSlides << slideId.to_str
+      client.client_slides.each do |slideId|
+        unless eventSlideIds.include? slideId.to_s
+          otherEventSlides << slideId.to_s
         end
       end
       
       clientEventIds = client.event_ids
-      clientEventIds.delete(event._id)
-      if !data[clientId][:slideIds].empty?
-        clientEventIds << event._id
+      clientEventIds.delete(event)
+      if !data[clientId.to_s][:slideIds].empty?
+        clientEventIds << event
         
         if negotiation_exists?(clientId, event._id)
           negotiation = get_negotiation(clientId, event._id)
-          update_negotiaton_intermediates(negotiation, data[clientId][:slideIds])
+          update_negotiaton_intermediates(negotiation, data[clientId.to_s][:slideIds])
         else
-          create_negotiaton(event._id, clientId, data[clientId][:slideIds])
+          create_negotiaton(event._id, clientId, data[clientId.to_s][:slideIds])
         end
       end
       
-      clientSlideIds = otherEventSlides + data[clientId][:slideIds]
+      clientSlideIds = otherEventSlides + data[clientId.to_s][:slideIds]
+      logger.info 
       update_client_slides(client, clientSlideIds, clientEventIds)
+      logger.info "haha\n\n"
       UserMailer.client_assigned(client.email).deliver_now	
     end
   end
@@ -149,7 +154,7 @@ class SlidesController < ApplicationController
   end
   
   def update_client_slides client, clientSlideIds, clientEventIds
-    client.update(:slide_ids => clientSlideIds, :event_ids => clientEventIds)
+    client.update(:client_slides => clientSlideIds, :event_ids => clientEventIds)
   end
   
   def create_slide eventId, talentId, data
@@ -169,11 +174,11 @@ class SlidesController < ApplicationController
   end
   
   def get_negotiation clientId, eventId
-    return Negotiation.find_by(:event_id => eventId, :client_id => clientId)
+    return Negotiation.find_by(:event_id => eventId, :client => clientId)
   end
   
   def create_negotiaton eventId, clientId, intermediateSlideIds
-    Negotiation.create!(:event_id => eventId, :client_id => clientId, :intermediateSlides => intermediateSlideIds, :finalSlides => [])
+    Negotiation.create!(:event_id => eventId, :client => clientId, :intermediateSlides => intermediateSlideIds, :finalSlides => [])
   end
   
   def update_negotiaton_intermediates negotiation, intermediateSlideIds
@@ -181,7 +186,7 @@ class SlidesController < ApplicationController
   end
   
   def negotiation_exists? clientId, eventId
-    if Negotiation.where(:event_id => eventId, :client_id => clientId).present?
+    if Negotiation.where(:event_id => eventId, :client => clientId).present?
       return true
     end
     

@@ -2,9 +2,10 @@ class NegotiationsController < ApplicationController
   # POST /admin/events/:id/negotiations
   # POST /client/events/:id/negotiations
   def create
-    if "ADMIN".casecmp? session[:userType]
+    current_role=request.path.split('/')[1]
+    if "admin".casecmp? current_role
       create_producer_negotiation
-    elsif "CLIENT".casecmp? session[:userType]
+    elsif "client".casecmp? current_role
       create_client_negotiation
     else
       create_user_negotiation
