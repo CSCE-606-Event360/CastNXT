@@ -25,9 +25,14 @@ class EventsController < ApplicationController
     forms.each do |form|
       fd = []
       km = get_events(form._id)
-      fd << form._id.to_str
-      fd << km[0].title.to_str
-      formIds << fd
+      if(km[0]!= nil)
+        fd << form._id.to_str
+        fd << km[0].title.to_str
+        formIds << fd
+        logger.debug fd
+      else
+        form.destroy()
+      end
     end
 
     @properties = {name: session[:userName], formIds: formIds}
@@ -57,8 +62,12 @@ class EventsController < ApplicationController
         eventId = params[:id]
         event = get_event(eventId)
         
-        update_event_status(event, params[:status])
-        #edit_event(event, params)
+        if params[:status]== "DELETED" || params[:status] == "ACCEPTING" || params[:status] == "REVIEWING" || params[:status] == "FINALIZED"
+          update_event_status(event, params[:status])
+        else 
+          params[:status] = event[:status]
+          edit_event(event, params)
+        end
 
         puts("step 1")
         if(params[:status] == "DELETED")
