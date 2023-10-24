@@ -4,6 +4,9 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { DataGrid } from '@material-ui/data-grid';
+import { saveAs } from 'file-saver';
+import IconButton from '@material-ui/core/IconButton';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 class AdminFinalizedCandidates extends Component {
     constructor(props) {
@@ -102,11 +105,29 @@ class AdminFinalizedCandidates extends Component {
             columns: columns
         })
     }
+
+    handleDownloadClick = () => {
+      // Convert your data to CSV format
+      const csvData = this.convertDataToCSV(this.state.rows);
+  
+      // Create a Blob with the CSV data
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+  
+      // Save the Blob as a file
+      saveAs(blob, 'table_data.csv');
+    };
+  
+    convertDataToCSV = (data) => {
+      // Implement a function to convert your data to CSV format
+      const headers = Object.keys(data[0]).join(',');
+      const csvRows = data.map((row) => Object.values(row).join(','));
+      return `${headers}\n${csvRows.join('\n')}`;
+    };
     
     render() {
         return(
             <div>
-                <h4 style={{marginTop: '10px'}}>Finalized Decks</h4>
+                {/* <h4 style={{marginTop: '10px'}}>Finalized Decks</h4> */}
                 
                 <FormControl variant="standard">
                     <p>Select a client below to view their finalized deck</p>
@@ -125,6 +146,15 @@ class AdminFinalizedCandidates extends Component {
                 <div>
                   <div className="col-md-8 offset-md-2" style={{marginTop: '10px'}}>
                     <Paper>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                        <h4 style={{ margin: 0, flex: 1 }}>Finalized Decks</h4>
+                        <div style={{ marginLeft: 'auto' }}>
+                          {/* <button onClick={this.handleDownloadClick}>Download Table</button> */}
+                          <IconButton color="primary" aria-label="Download Table" onClick={this.handleDownloadClick}>
+                            <SaveAltIcon />
+                          </IconButton>
+                        </div>
+                      </div>
                       <DataGrid
                         rows={this.state.rows}
                         columns={this.state.columns}

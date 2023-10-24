@@ -158,13 +158,15 @@ class EventsController < ApplicationController
     unless is_user_logged_in?("ADMIN")
       return redirect_to root_path
     end
-    
+    logger.info params
     eventId = params[:id]
+    logger.info eventId
     if unknown_event?(eventId)
       return
     end
     
     event = get_event(eventId)
+    logger.info event
     form = get_form(event.form_id)
     
     data = JSON.parse(form.data)
@@ -256,7 +258,7 @@ class EventsController < ApplicationController
   
   def build_producer_event_slides event
     slidesObject = {}
-    
+    logger.info event
     event.slide_ids.each do |slideId|
       slide = get_slide(slideId)
       talent = get_talent(slide.talent_slides)
