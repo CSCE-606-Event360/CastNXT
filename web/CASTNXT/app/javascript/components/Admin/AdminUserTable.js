@@ -107,10 +107,10 @@ class AdminUserTable extends Component {
       return `${headers}\n${csvRows.join('\n')}`;
     };
 
-    handlePayPalMeLinkClick = (paypalMeLink) => {
-      if (paypalMeLink.includes("paypal.me")) {
+    handlePayMeLinkClick = (payMeLink) => {
+      if (payMeLink.includes("paypal.me") || payMeLink.includes("paypal")) {
         // Extract the text after the last "/"
-        const parts = paypalMeLink.split("/");
+        const parts = payMeLink.split("/");
         const userName = parts[parts.length - 1];
     
         // Construct the PayPal payment URL using the extracted username
@@ -120,17 +120,19 @@ class AdminUserTable extends Component {
         window.open(paymentURL, "_blank");
       }
 
-      if (paypalMeLink.includes("paypal")) {
+      if (payMeLink.includes("venmo.com") || payMeLink.includes("venmo")) {
         // Extract the text after the last "/"
-        const parts = paypalMeLink.split("/");
+        const parts = payMeLink.split("/");
         const userName = parts[parts.length - 1];
     
         // Construct the PayPal payment URL using the extracted username
-        const paymentURL = `https://www.paypal.com/paypalme/${userName}`;
+        const paymentURL = `https://venmo.com/${userName}`;
     
         // Redirect the user to the PayPal payment page
         window.open(paymentURL, "_blank");
       }
+
+      
     };
     
     render() {
@@ -165,7 +167,7 @@ class AdminUserTable extends Component {
                               ...col,
                               renderCell: (params) => (
                                 <button
-                                  onClick={() => this.handlePayPalMeLinkClick(params.row.paymentLink)}
+                                  onClick={() => this.handlePayMeLinkClick(params.row.paymentLink)}
                                   style={{ background: 'transparent', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
                                 >
                                   {params.value}
