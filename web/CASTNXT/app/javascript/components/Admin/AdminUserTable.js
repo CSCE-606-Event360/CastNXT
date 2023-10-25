@@ -106,6 +106,32 @@ class AdminUserTable extends Component {
       const csvRows = data.map((row) => Object.values(row).join(','));
       return `${headers}\n${csvRows.join('\n')}`;
     };
+
+    handlePayPalMeLinkClick = (paypalMeLink) => {
+      if (paypalMeLink.includes("paypal.me")) {
+        // Extract the text after the last "/"
+        const parts = paypalMeLink.split("/");
+        const userName = parts[parts.length - 1];
+    
+        // Construct the PayPal payment URL using the extracted username
+        const paymentURL = `https://www.paypal.com/paypalme/${userName}`;
+    
+        // Redirect the user to the PayPal payment page
+        window.open(paymentURL, "_blank");
+      }
+
+      if (paypalMeLink.includes("paypal")) {
+        // Extract the text after the last "/"
+        const parts = paypalMeLink.split("/");
+        const userName = parts[parts.length - 1];
+    
+        // Construct the PayPal payment URL using the extracted username
+        const paymentURL = `https://www.paypal.com/paypalme/${userName}`;
+    
+        // Redirect the user to the PayPal payment page
+        window.open(paymentURL, "_blank");
+      }
+    };
     
     render() {
         return(
@@ -126,8 +152,29 @@ class AdminUserTable extends Component {
                       </div>
                       <DataGrid
                         testId='userTableDataGrid'
-                        rows={this.state.rows}
-                        columns={this.state.columns}
+                        // rows={this.state.rows}
+                        // columns={this.state.columns}
+                        rows={this.state.rows.map((row, index) => ({
+                          ...row,
+                          id: index + 1,
+                        }))}
+                        columns={this.state.columns.map((col) => {
+                          // console.log(col)
+                          if (col.field === 'paymentLink') {
+                            return {
+                              ...col,
+                              renderCell: (params) => (
+                                <button
+                                  onClick={() => this.handlePayPalMeLinkClick(params.row.paymentLink)}
+                                  style={{ background: 'transparent', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}
+                                >
+                                  {params.value}
+                                </button>
+                              ),
+                            };
+                          }
+                          return col;
+                        })}
                         pageSize={10}
                         rowsPerPageOptions={[10]}
                         autoHeight
