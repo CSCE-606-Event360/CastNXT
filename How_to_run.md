@@ -11,6 +11,7 @@ db.createUser(
 
 gem install bundler
 bundle install
+
 eval "$(rbenv init -)"
 rbenv local 2.6.6
 rails s
