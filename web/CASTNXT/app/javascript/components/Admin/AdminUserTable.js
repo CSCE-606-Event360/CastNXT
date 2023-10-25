@@ -125,10 +125,10 @@ class AdminUserTable extends Component {
         const parts = payMeLink.split("/");
         const userName = parts[parts.length - 1];
     
-        // Construct the PayPal payment URL using the extracted username
+        // Construct the Venmo payment URL using the extracted username
         const paymentURL = `https://venmo.com/${userName}`;
     
-        // Redirect the user to the PayPal payment page
+        // Redirect the user to the Venmo payment page
         window.open(paymentURL, "_blank");
       }
 
