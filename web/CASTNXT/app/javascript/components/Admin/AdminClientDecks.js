@@ -119,6 +119,18 @@ class AdminClientDecks extends Component {
             [e.target.name]: e.target.value
         })
     }
+    handleClick = (e) => {
+      if (e.target.value === "Enter Comment") {
+        e.target.value = "";
+      }
+    };
+    handleBlur = (e) => {
+      
+      if (e.target.value === "") {
+        e.target.value = "Enter Comment";
+      }
+    };
+  
     
     expandSlides = () => {
       this.setState({
@@ -361,7 +373,7 @@ class AdminClientDecks extends Component {
 
                                                 <br />   
 
-                                                <TextField id="title-textfield" name="commentContent" onChange={this.handleChange} defaultValue="Enter Comment" />
+                                                <TextField id="title-textfield" name="commentContent" onChange={this.handleChange} onBlur={this.handleBlur} onClick={this.handleClick} defaultValue="Enter Comment" />
 
                                                 <br />
 

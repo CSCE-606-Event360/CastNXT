@@ -82,6 +82,17 @@ class ClientEventFeedback extends Component {
             [e.target.name]: e.target.value
         })
     }
+    handleClick = (e) => {
+      if (e.target.value === "Enter Comment") {
+        e.target.value = "";
+      }
+    };
+    handleBlur = (e) => {
+      
+      if (e.target.value === "") {
+        e.target.value = "Enter Comment";
+      }
+    };
 
     submitComment = (slideId) => {
       const payload = {
@@ -187,7 +198,7 @@ class ClientEventFeedback extends Component {
 
                                           
 
-                                          <TextField id="title-textfield" name="commentContent" onChange={this.handleChange} defaultValue="Enter Comment" />
+                                          <TextField id="title-textfield" name="commentContent" onClick={this.handleClick} onBlur={this.handleBlur} onChange={this.handleChange} defaultValue="Enter Comment" />
 
                                           <br />
 
