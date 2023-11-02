@@ -51,8 +51,11 @@ class UserHomepage extends Component {
     }
     
     handleTabChange = (event, value) => {
+        
         this.setState({
-            tabValue: value
+            tabValue: value,
+
+            filteredTableData: value===0 ? this.state.acceptingTableData:this.state.submittedTableData,
         })
     }
     
@@ -70,7 +73,8 @@ class UserHomepage extends Component {
     }
 
     onSubmit = () => {
-        let tableDataCopy = this.state.acceptingTableData;
+        
+        let tableDataCopy = this.state.tabValue===0 ? this.state.acceptingTableData:this.state.submittedTableData;
         
         // Category Based Filtering
         let categoryFilterValues = tableDataCopy.filter((event) => this.state.categoryFilterTextValue === 'All' ? true: this.state.categoryFilterTextValue === event.category)
@@ -86,6 +90,8 @@ class UserHomepage extends Component {
                 return event.statename === this.state.stateName
             })
             finalFilterValues = stateFilterValues
+        }else{
+            stateFilterValues = categoryFilterValues;
         }
         
         // City Based Filtering
@@ -198,7 +204,7 @@ class UserHomepage extends Component {
                  </TableRow>
             )
         } else {
-            submittedTableData.map((event, i) => {
+            filteredTableData.map((event, i) => {
                 if (event.accepting) {
                     rows.push(
                         <TableRow key={i}>
@@ -263,6 +269,7 @@ class UserHomepage extends Component {
                                 <LocationFilter handleLocationFilterChange = {this.handleLocationFilterChange}></LocationFilter>
                                 <div><b>Is the event paid ?</b></div>
                                 <IsPaidFilter isPaidFilterSelected = {this.onIsPaidFilterSelected}></IsPaidFilter>
+                                <Button variant="outlined" onClick = {this.onReset} style={commonStyle}>Reset Filter</Button> 
                                 <Button variant="outlined" onClick = {this.onSubmit} style={commonStyle}>Submit Filter</Button> 
                             
                                 {this.state.tabValue === 0 &&
