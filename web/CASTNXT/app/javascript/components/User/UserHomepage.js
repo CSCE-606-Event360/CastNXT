@@ -33,30 +33,39 @@ class UserHomepage extends Component {
                 return (currTime.getTime() - updatedTime.getTime())/(1000 * 3600 * 24) <7;
             }
         }) 
-
+        var savedTabValue = localStorage.getItem('savedTabValue');
+        console.log(savedTabValue);
+        if (savedTabValue===null){
+            
+            savedTabValue = 0
+        }else{
+            savedTabValue = parseInt(savedTabValue,10);
+        }
         this.state = {
             acceptingTableData: properties.acceptingTableData ? properties.acceptingTableData : [],
             submittedTableData: properties.submittedTableData ? properties.submittedTableData : [],
             eventDeletedFlag,
-            tabValue: 0,
+            tabValue: savedTabValue,
             categoryFilterTextValue: 'All', 
             stateName: '', 
             cityName: '', 
             title:'',
             eventdateStart:'',
             eventdateEnd:'',
-            filteredTableData: properties.acceptingTableData ? properties.acceptingTableData : [], 
+            filteredTableData: savedTabValue===0 ? (properties.acceptingTableData ? properties.acceptingTableData : []):(properties.submittedTableData ? properties.submittedTableData : []),
             isPaidFilterValue: 'None'
         }
     }
     
     handleTabChange = (event, value) => {
+        localStorage.setItem('savedTabValue', value);
         
         this.setState({
             tabValue: value,
 
             filteredTableData: value===0 ? this.state.acceptingTableData:this.state.submittedTableData,
         })
+        location.reload();
     }
     
     handleLocationFilterChange = (stateName, cityName) =>{
@@ -65,7 +74,9 @@ class UserHomepage extends Component {
             cityName
         })
     }
-
+    onReset =()=>{
+        location.reload();
+    }
     handleChange = (e, value) => {
         this.setState({
             [e.target.name]: e.target.value
