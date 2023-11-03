@@ -49,12 +49,12 @@ class HomeController < ApplicationController
       if new_user?(params[:email])
         create_user(params)
         currentUser = get_user(params[:email], params[:password])
-        UserMailer.send_welcome(params[:email], currentUser._id.to_str).deliver_now
+        # UserMailer.send_welcome(params[:email], currentUser._id.to_str).deliver_now
         session[:userEmail] = currentUser.email
         session[:userType] = currentUser.user_type
         session[:userName] = currentUser.name
         session[:userId] = currentUser._id.to_str
-        render json: {comment: "Please check your mailbox for validation email. Validate and login back!"}, status: 400
+        render json: {comment: "Account Created Sucessfully - Login now!"}, status: 400
       else
         render json: {comment: "An account with the given Email already exists!"}, status: 400
       end

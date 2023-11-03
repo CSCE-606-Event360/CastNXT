@@ -172,9 +172,9 @@ class AdminCreateStack extends Component {
                                             
                                             <div style={{textAlign: "right"}}>
                                               {!row.curated? (
-                                                <Button onClick={() => this.changeStack(row)} variant="contained" color="success">Add</Button>
+                                                <Button onClick={() => this.changeStack(row)} variant="contained" color="success">Select</Button>
                                               ) : (
-                                                <Button onClick={() => this.changeStack(row)} variant="contained" color="error">Remove</Button>
+                                                <Button onClick={() => this.changeStack(row)} variant="contained" color="error">Unselect</Button>
                                               )}
                                             </div>
                                             

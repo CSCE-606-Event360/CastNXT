@@ -301,7 +301,7 @@ class AdminEditEvent extends Component {
                             
                             <br /><br />
                             
-                            <Button disabled={this.state.disableSubmit} variant="contained" onClick={this.onEditEventClick}>Edit Event</Button>
+                            <Button disabled={this.state.disableSubmit} variant="contained" onClick={this.onEditEventClick}>Publish Form</Button>
                             
                             {(this.state.status !== "" && this.state.status) &&
                                 <div>

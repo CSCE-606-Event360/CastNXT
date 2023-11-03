@@ -6,7 +6,7 @@ import "./Forms.css";
 
 const customFormInputs = {
   array: {
-    displayName: "File",
+    displayName: "Image",
     matchIf: [
       {
         types: ["string"],
