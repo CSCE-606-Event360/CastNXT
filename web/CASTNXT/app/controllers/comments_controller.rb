@@ -61,6 +61,9 @@ class CommentsController < ApplicationController
   end
 
   def create_comment_producer slideId, clientId, commentContent, commentOwner
+    client = Client.find_by(:_id => clientId)
+    
+    UserMailer.added_comment(client.email).deliver_now	
     Comment.create(:slide_id => slideId, :client_id => clientId, :content => commentContent, :owner => commentOwner)
   end
 
