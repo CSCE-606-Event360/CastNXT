@@ -306,7 +306,7 @@ class AdminCreateEvent extends Component {
                                             <p className="preview-title">Form preview: </p>
                                             <Slide
                                                 schema={this.state.formData.schema}
-                                                uiSchema={this.state.formData.uiSchema}
+                                                uiSchema={this.state.formData.uischema}
                                                 formData={{}}
                                                 onFormDataChange={() => {}}
                                             />
