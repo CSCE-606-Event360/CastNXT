@@ -25,7 +25,7 @@ class EventsController < ApplicationController
       # logger.debug form.inspect
       fd = []
       km = get_events(form._id)
-      
+      logger.debug km.inspect
       if(km[0]!= nil)
         fd << form._id.to_str
         fd << km[0].title.to_str
@@ -180,8 +180,26 @@ class EventsController < ApplicationController
     
     data[:clients] = build_producer_event_clients(event)
     data[:slides] = build_producer_event_slides(event)
+    formIds = []
 
-    @properties = {name: session[:userName], data: data}
+    forms = get_producer_forms(session[:userId])
+    forms.each do |form|
+      # logger.debug form.inspect
+      fd = []
+      km = get_events(form._id)
+      
+      if(km[0])
+        fd << form._id.to_str
+        fd << km[0].title.to_str
+        formIds << fd
+        logger.debug fd
+      else
+        form.destroy()
+      end
+
+    end
+
+    @properties = {name: session[:userName], data: data,formIds:formIds}
   end
   
   def client_event
@@ -314,7 +332,7 @@ class EventsController < ApplicationController
   end
 
   def edit_event event, params
-    event.update(:title => params[:title], :description => params[:description], :location => params[:location], :statename => params[:statename], :eventdate => params[:eventdate], :category => params[:category], :is_paid_event => params[:is_paid_event])
+    event.update(:form_id => params[:form_id],:title => params[:title], :description => params[:description], :location => params[:location], :statename => params[:statename], :eventdate => params[:eventdate], :category => params[:category], :is_paid_event => params[:is_paid_event])
   end
   
   def get_event eventId

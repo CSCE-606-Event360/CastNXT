@@ -36,7 +36,7 @@ class AdminEditEvent extends Component {
             eventdate: this.props.properties.data.eventdate,
             category: this.props.properties.data.category,
             is_paid_event: this.props.properties.data.is_paid_event,
-            formIds: properties.formIds !== undefined ? properties.formIds : [],
+            formIds: this.props.properties.formIds !== undefined ? this.props.properties.formIds : [],
             formData: null,
             newFormData: {},
             newFormId: "",
@@ -109,7 +109,7 @@ class AdminEditEvent extends Component {
         this.setState({
             disableSubmit: true
         })
-      
+        console.log(this.state.uischema)
         axios.post("/admin/forms", {
             data:JSON.stringify({
                 schema: JSON.parse(this.state.schema),
