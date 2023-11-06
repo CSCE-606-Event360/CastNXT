@@ -68,6 +68,15 @@ class EventsController < ApplicationController
         else 
           params[:status] = event[:status]
           edit_event(event, params)
+          talents = Talent.all
+          talents.each do |talent|
+            if talent_slide_exists?(eventId, talent.id)
+              event = get_event(eventId)
+              UserMailer.form_edited(talent.email, event.title).deliver_now
+              puts(talent.email)
+              puts(event.title)
+            end
+          end
         end
 
         puts("step 1")
