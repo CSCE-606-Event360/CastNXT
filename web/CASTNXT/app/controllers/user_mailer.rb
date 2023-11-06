@@ -20,4 +20,8 @@ class UserMailer < ApplicationMailer
     def added_comment(email)
       mail(to: email, subject: "Producer has commented on your Talent.", body:"<!DOCTYPE html><body>Hi, A comment has been posted on a talent that has been assigned to you!<div></div></body>", content_type: "text/html")
     end
+
+    def form_edited(email, event_name)
+      mail(to: email, subject: "New fields added to the #{event_name} form.", body:"<!DOCTYPE html><body>Hi, New Fields have been added to the #{event_name} form that you have submitted!<div></div></body>", content_type: "text/html")
+    end
 end
