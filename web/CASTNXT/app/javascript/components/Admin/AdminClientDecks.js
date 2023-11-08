@@ -78,9 +78,13 @@ class AdminClientDecks extends Component {
               if (this.state.slides[clients[key].slideIds[i]].comments) {
                 // TypeError: Cannot read properties of undefined (reading 'length')
                 for(var j=0; j<this.state.slides[clients[key].slideIds[i]].comments.length; j++){
+                  // console.log(this.state.slides[clients[key].slideIds[i]].comments[j].commentClient)
+                  // console.log(key)
+                  if (this.state.slides[clients[key].slideIds[i]].comments[j].commentClient === key){
+                  // console.log("haha")
                   clientSlideComments.push(
                     this.state.slides[clients[key].slideIds[i]].comments[j]
-                  )
+                  )}
                 }
                 clientComments[key].push(clientSlideComments)
               }

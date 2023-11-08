@@ -186,7 +186,7 @@ class EventsController < ApplicationController
     data[:eventdate] = event.eventdate
     data[:category] = event.category
     data[:is_paid_event] = event.is_paid_event
-    
+
     data[:clients] = build_producer_event_clients(event)
     data[:slides] = build_producer_event_slides(event)
     formIds = []
@@ -295,7 +295,8 @@ class EventsController < ApplicationController
       slideObject[:comments] = []
 
       slide.comment_ids.each do |commentId|
-        slideObject[:comments].push({:commentContent => get_comment(commentId).content, :commentOwner => get_comment(commentId).owner})        
+        clientFound=get_comment(commentId)
+        slideObject[:comments].push({:commentContent => clientFound.content, :commentOwner => clientFound.owner, :commentClient =>clientFound.client_id.to_str})        
       end
       
       slidesObject[slideId.to_str] = slideObject
