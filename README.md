@@ -1,9 +1,9 @@
-<!--
+
 # CASTNXT
 Web-App to Automate Talent Audition, Placement, Replacement and Tabulate Pay
 
 # How to run?
-1. Visit our Heroku Url: https://castnxt-final.herokuapp.com/
+1. Visit our Heroku Url: https://castnxtfall-4acce6c18be3.herokuapp.com/
 2. Create new users, of either client, talent or admin type.
 3. To validate your account, an email will be sent. Refer to that and validate your account.
 4. Login and continue!
@@ -20,23 +20,126 @@ This repo has both Javascript and Ruby on Rails test-cases. Please run them in t
 1. We use rspec for ruby tests.
 
 # Iteration Reports: 
-There are 5 iteration reports and 1 final report in total.
-https://github.com/tamu-edu-students/CASTNXT/tree/main/documentation/Fall2022
+<!-- There are 2 iteration reports and 1 final report in total. -->
+https://github.com/CSCE-606-Event360/documentation/tree/main/Fall2023
 
-# Presentation:
+<!-- # Presentation:
 https://tamucs-my.sharepoint.com/:p:/g/personal/anushkagarg_tamu_edu/Efy2j5Wx94RGg3DHXSwwhzABcBfsTAJGz2VbhXSGtP7-5Q?e=glfvnl
 
 # Demo:
-https://drive.google.com/file/d/1ltjPFTOFTjmW5PaYCQwqj9crIkx1Y_8r/view
--->
+https://drive.google.com/file/d/1ltjPFTOFTjmW5PaYCQwqj9crIkx1Y_8r/view -->
 
 
-# Iteration Reports: 
+
+<!-- # Iteration Reports: 
 There is 1 iteration report present at
+https://github.com/tamu-edu-students/CastNXT_Spring2023/tree/main/documentation/Spring2023 -->
 
-[https://github.com/tamu-edu-students/CastNXT_Spring2023/tree/main/documentation/Spring2023](https://github.com/tamu-edu-students/CastNXT_Spring2023/tree/main/documentation/Spring2023)
+# Heroku Deployment:
+CastNXT:[https://castnxtfall-4acce6c18be3.herokuapp.com/](https://castnxtfall-4acce6c18be3.herokuapp.com/)
 
-# Heroku Deployment (New)
-This is where our app is deployed 
+## Steps for Local:
+Clone -> Go to web/CASTNXT
+```
+/bin/bash --login
+rvm install “ruby-2.6.6”
+bundle install
+```
+```
+npm install -g npm@8.5.4
+nvm install 16.13.0
+npm install -g yarn
+```
+```
+bundle exec rails webpacker:install
+```
+```
+rails db:migrate RAILS_ENV=development
+rails s -p $PORT -b $IP
+```
+---
+## Steps for Heroku:
+> Heroku Build takes a lot of space right now.
+Upgrade volume to >=15GB.
 
-[https://castnxtfall-4acce6c18be3.herokuapp.com/](https://castnxtfall-4acce6c18be3.herokuapp.com/)
+Clone -> Go to web/CASTNXT
+
+### Create heroku project
+```
+heroku login -i
+heroku container:login
+heroku create -a castnxtfall
+```
+
+### Build repo into container and deploy to heroku
+```
+heroku container:login
+heroku container:push web -a castnxtfall
+heroku container:release web -a castnxtfall
+```
+
+### Tail the logs:
+```
+heroku logs --tail -a castnxtfall
+```
+
+## Running tests:
+```
+yarn run test
+```
+
+THERE ARE NO RUBY TESTS. THEY DO NOT WORK. THEY ARE DEPRECATED. (See todo list #2)
+
+## Common Errors:
+Problem:
+RVM is not a function, selecting rubies with 'rvm use ...' will not work.
+
+Solution:
+/bin/bash --login
+
+---
+Problem:
+Webpacker::Manifest::MissingEntryError
+
+Solution:
+bundle exec rake assets
+
+---
+Problem:
+Your Ruby version is X, but your Gemfile specified Y
+
+Solution:
+rvm use Y
+
+---
+Problem:
+Warning! PATH is not properly set up, /home/user/.rvm/gems/ruby-3.1.2/bin is not at first place.
+
+rvm implode
+reinstall rvm using https://github.com/rvm/ubuntu_rvm
+
+## Pitfalls
+
+The design of the project is kind of weird. So webpacker is used to marshall the frontend code written in 
+web/CASTNXT/app/javascript (check javascript/packs) from app/views using tags like 
+<%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+for example. 
+
+
+There are no REST apis, the data is directly injected into the page as javascript for some reason.
+Also all the packages are very old and tend to cause a lot of errors if you try to update them so avoid doing
+that because it is a rabbit hole of errors where after fixing one two take its place.
+
+Be careful with babel. If the frontend breaks, rebuild it with
+
+```
+rails webpacker:install
+```
+
+another nifty command is
+```
+rails webpacker:compile
+```
+
+but sometimes it won't work because your change isn't detected so just add a space to the FE code I guess...

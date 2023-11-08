@@ -225,7 +225,7 @@ class AdminCreateStack extends Component {
                           </table>
                           <br />
                           
-                          <Button variant="contained" onClick={this.makeMasterStack}>Submit</Button><br /><br />
+                          <Button variant="contained" onClick={this.makeMasterStack}>Save</Button><br /><br />
                           <hr />
                         </div>
                       }

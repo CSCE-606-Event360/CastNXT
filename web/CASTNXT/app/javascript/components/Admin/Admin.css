@@ -9,3 +9,11 @@
     flex-direction: column;
     justify-content: space-around;
 }
+
+.even-row {
+    background-color: lightblue; /* Style for even rows */
+}
+
+.odd-row {
+    background-color: lightgrey; /* Style for odd rows */
+}
