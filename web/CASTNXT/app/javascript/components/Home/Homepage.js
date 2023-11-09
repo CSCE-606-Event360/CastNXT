@@ -98,6 +98,7 @@ class Homepage extends Component {
                 })
                 
                 window.location.href = res.data.redirect_path;
+                console.log(res.data.redirect_path)
             })
             .catch((err) => {
                 this.setState({
@@ -105,7 +106,11 @@ class Homepage extends Component {
                     status: false,
                     message: err.response.data.comment
                 })
-                
+                if(err.response.data.comment==="Account Created Sucessfully - Login now!"){
+                    setTimeout(function() {
+                        location.reload();
+                     }, 1000);
+                }
             })
         }
     }
