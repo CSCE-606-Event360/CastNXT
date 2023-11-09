@@ -6,6 +6,7 @@ import { extendedNumberOperators } from '../../utils/RangeFilter';
 import { saveAs } from 'file-saver';
 import IconButton from '@material-ui/core/IconButton';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import "./Admin.css";
 
 class AdminUserTable extends Component {
     constructor(props) {
@@ -183,6 +184,9 @@ class AdminUserTable extends Component {
                         onRowClick = {this.onRowClick}
                         filterModel = {this.state.filterModel}
                         onFilterModelChange={(model) => this.onFilterModelChange(model)}
+                        getRowClassName= {(params) => 
+                          params.row.id % 2 === 0 ? 'even-row' : 'odd-row'
+                        }
                       />
                     </Paper>
                   </div>

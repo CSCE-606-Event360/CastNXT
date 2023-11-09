@@ -6,6 +6,7 @@ import { extendedNumberOperators } from '../../utils/RangeFilter';
 import { saveAs } from 'file-saver';
 import IconButton from '@material-ui/core/IconButton';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import "./Admin.css";
 
 class AdminEventSummary extends Component {
     constructor(props) {
@@ -182,6 +183,9 @@ class AdminEventSummary extends Component {
                       pageSize={10}
                       rowsPerPageOptions={[10]}
                       autoHeight
+                      getRowClassName= {(params) => 
+                        params.row.id % 2 === 0 ? 'even-row' : 'odd-row'
+                      }
                     />
                   </Paper>
                 </div>

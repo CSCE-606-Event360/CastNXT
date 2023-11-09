@@ -63,19 +63,28 @@ class AdminEventPage extends Component {
                 
                 <div className="container">
                     <div className="user-events">
-                        <h2> {this.state.title} </h2>
+                    <div style={{ position: "relative" }}>
+                        <h2 style={{ textAlign: "center" }}>{this.state.title}</h2>
+                        <Button
+                            style={{ position: "absolute", top: 0, right: 5 }}
+                            size="small"
+                            variant="outlined"
+                            onClick={this.back}
+                        >
+                            Back to Forms
+                        </Button>
+                        </div>
                         <h6> {this.state.description} </h6>
                         <h6>Location : {this.state.location}, {this.state.statename}</h6>
                         <h6>Date : {this.state.eventdate}</h6>
                         <h6>Category : {this.state.category}</h6>
                         
-                        <Button size="small" variant="outlined" style={{float: "right", marginRight: "1%"}} onClick={this.back}>Back to Forms</Button>
-
+                        
                         <div>
                             <Box sx={{ width: "100%", marginRight: "-2%" }}>
                               <Box display="flex" justifyContent="center" width="100%" sx={{ borderBottom: 1, borderColor: "divider" }}>
                                 <Tabs value={this.state.tabValue} onChange={this.handleTabChange} centered variant="scrollable" scrollButtons="auto">
-                                    {["Home","Submitted Docs","Selected Docs", "Client Decks", "Finalized Decks", "Summary", "Edit"].map((label) => {
+                                    {["Home","Submitted Docs","Selected Docs", "Client Decks", "Finalized Decks", "Summary", "Edit Form"].map((label) => {
                                         return <Tab key={label} label={label} />
                                     })}
                                 </Tabs>
