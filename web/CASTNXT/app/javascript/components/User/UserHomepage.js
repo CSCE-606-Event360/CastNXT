@@ -79,8 +79,9 @@ class UserHomepage extends Component {
     }
     handleChange = (e) => {
         const { name, value } = e.target;
+        const sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: sanitizedValue
         })
         // Validate date range if both eventdateStart and eventdateEnd are present
         if (name === 'eventdateStart' && this.state.eventdateEnd) {
