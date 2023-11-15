@@ -8,38 +8,38 @@ class HomeController < ApplicationController
   
   # GET /validation/:id
   def validation
-    u1 = Auth.find_by(:_id => params[:id])
-    typeuser = u1.user_type
-    begin
-      if "ADMIN".casecmp? typeuser
-        user = Producer.find_by(:_id => params[:id])
-        user.is_valid = true
-        user.save
-        auth = Auth.find_by(:_id => params[:id])
-        puts auth.email
-        auth.is_valid = true
-        auth.save
-      elsif "CLIENT".casecmp? typeuser
-        user = Client.find_by(:_id => params[:id])
-        user.is_valid = true
-        user.save
-        auth = Auth.find_by(:_id => params[:id])
-        puts auth.email
-        auth.is_valid = true
-        auth.save
-      else
-        user = Talent.find_by(:_id => params[:id])
-        user.is_valid = true
-        user.save
-        auth = Auth.find_by(:_id => params[:id])
-        puts "talent"
-        puts auth.email
-        auth.is_valid = true
-        auth.save
-      end
-      return redirect_to root_path
-      #render json: {redirect_path: "User validated!"}, status: 201
-    end
+    # u1 = Auth.find_by(:_id => params[:id])
+    # typeuser = u1.user_type
+    # begin
+    #   if "ADMIN".casecmp? typeuser
+    #     user = Producer.find_by(:_id => params[:id])
+    #     user.is_valid = true
+    #     user.save
+    #     auth = Auth.find_by(:_id => params[:id])
+    #     puts auth.email
+    #     auth.is_valid = true
+    #     auth.save
+    #   elsif "CLIENT".casecmp? typeuser
+    #     user = Client.find_by(:_id => params[:id])
+    #     user.is_valid = true
+    #     user.save
+    #     auth = Auth.find_by(:_id => params[:id])
+    #     puts auth.email
+    #     auth.is_valid = true
+    #     auth.save
+    #   else
+    #     user = Talent.find_by(:_id => params[:id])
+    #     user.is_valid = true
+    #     user.save
+    #     auth = Auth.find_by(:_id => params[:id])
+    #     puts "talent"
+    #     puts auth.email
+    #     auth.is_valid = true
+    #     auth.save
+    #   end
+    #   return redirect_to root_path
+    #   #render json: {redirect_path: "User validated!"}, status: 201
+    # end
   end
 
   # POST /home/signup
@@ -91,18 +91,18 @@ class HomeController < ApplicationController
 
   # POST /home/forgotPassword
   def forgotPassword
-    begin
-      if user_exists?(params[:email])
-        resetLink = generate_resetlink(params[:email])
-        UserMailer.password_reset(params[:email], resetLink)
-        render json: {comment: "A password reset email has been sent to your mailbox!"}, status: 400
-        return
-      else
-        render json: {comment: "No such email exists."}, status: 400
-      end
-    rescue Exception => e
-      render json: {comment: e.message}, status: 500
-    end
+    # begin
+    #   if user_exists?(params[:email])
+    #     resetLink = generate_resetlink(params[:email])
+    #     UserMailer.password_reset(params[:email], resetLink)
+    #     render json: {comment: "A password reset email has been sent to your mailbox!"}, status: 400
+    #     return
+    #   else
+    #     render json: {comment: "No such email exists."}, status: 400
+    #   end
+    # rescue Exception => e
+    #   render json: {comment: e.message}, status: 500
+    # end
   end
 
   def landing_page

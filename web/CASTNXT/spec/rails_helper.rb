@@ -1,9 +1,14 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 require 'mongoid-rspec'
-ENV['RAILS_ENV'] ||= 'development'
+ENV['RAILS_ENV'] ||= 'test'
 Mongoid.load!(File.expand_path('../../config/mongoid.yml', __FILE__), :test)
-
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_filter '/bin/'
+  add_filter '/db/'
+  add_filter '/spec/' # for RSpec
+end
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?

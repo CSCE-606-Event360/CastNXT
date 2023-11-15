@@ -8,6 +8,7 @@ class AdminController < ApplicationController
     tableData = []
     
     eventIds = get_producer_event_ids(session[:userId])
+    puts session[:userId]
     eventIds.each do |eventId|
       event = get_event(eventId)
       
