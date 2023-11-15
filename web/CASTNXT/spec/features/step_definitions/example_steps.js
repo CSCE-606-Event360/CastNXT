@@ -4,16 +4,13 @@ let number1;
 let number2;
 let sum;
 
-Given('I have number {int}', function (int) {
-    if (!number1) {
-        number1 = int;
-    } else {
-        number2 = int;
-    }
+Given('I have numbers {int} and {int}', function (num1, num2) {
+    number1 = num1;
+    number2 = num2;
 });
 
 When('I add them', function () {
-    sum = number1 + number2;
+    sum = number1 + number2
 });
 
 Then('I should get {int}', function (expected) {
