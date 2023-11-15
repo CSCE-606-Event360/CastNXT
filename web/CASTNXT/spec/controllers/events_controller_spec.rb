@@ -62,5 +62,67 @@ RSpec.describe EventsController, type: :controller do
             get :new
             expect(response).to have_http_status(:success)
         end
+        it "should not get a new event page" do
+            session[:userType]="CLIENT"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            get :new
+            expect(response).to have_http_status(:redirect)
+        end
+    end
+    describe "events#post" do
+        it "should create a new event" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            post :create, params:{form_id:@form._id, title:"event create", description:"event description",location:"Houston", statename:"Texas",eventdate:"2023-11-30T06:00:00.000Z",category:"Fashion",is_paid_event:"No"}
+            expect(response).to have_http_status(:success)
+        end
+        it "should create a new event" do
+            session[:userType]="USER"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            post :create, params:{form_id:@form._id, title:"event create", description:"event description",location:"Houston", statename:"Texas",eventdate:"2023-11-30T06:00:00.000Z",category:"Fashion",is_paid_event:"No"}
+            expect(response).to_not have_http_status(:success)
+        end
+    end
+    describe "event#edit" do
+        it "should get a edit event page" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            get :edit, params:{id:@event._id}
+            expect(response).to have_http_status(:success)
+        end
+        it "should not get a edit event page" do
+            session[:userType]="USER"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            get :edit, params:{id:@event._id}
+            expect(response).to_not have_http_status(:success)
+        end
+    end
+    describe "event#update" do
+        it "should update the event status" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            put :update, params:{id:@event._id ,status:"DELETED"}
+            expect(response).to have_http_status(:success)
+        end
+        it "should update the event info" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            put :update, params:{id:@event._id ,description:"event description modified"}
+            expect(response).to have_http_status(:success)
+        end
     end
 end
