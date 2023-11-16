@@ -52,9 +52,9 @@ class AdminCreateClientStack extends Component {
             clients: []
           }) 
         }
-
+        console.log(entries.length)
         entries = entries.filter(row => row["curated"] === true)
-        
+        console.log(entries.length)
         for(var key in clients) {
           clientOptions.push({
             label: clients[key].name,
@@ -184,6 +184,9 @@ class AdminCreateClientStack extends Component {
         const isCurated = rowData?.curated || this.props?.properties?.data?.slides[`${rowData.row.uniqId}`]?.curated;
         const slideData = rowsToEntries(rowData, isCurated)
         console.log(slideData);
+        this.setState({
+          page: rowData.id-1
+        })
     }
 
     render() {
@@ -193,7 +196,7 @@ class AdminCreateClientStack extends Component {
                 
               <div style={{marginTop: "1%"}}>
                   <p>Use this page to create client-specific slide decks</p>
-                  <AdminUserTable properties={this.props.properties} handleRowClick={this.onRowClick}/>
+                  <AdminUserTable properties={this.props.properties} handleRowClick={this.onRowClick} filter_curated = {true} />
                   {
                     <div>
                         <div className="col-md-8 offset-md-2">
@@ -240,7 +243,7 @@ class AdminCreateClientStack extends Component {
                                 <TableFooter>
                                   <TableRow>
                                     <TablePagination
-                                      rowsPerPageOptions={[1, 2]}
+                                      rowsPerPageOptions={[1]}
                                       count={this.state.entries.length}
                                       rowsPerPage={this.state.rowsPerPage}
                                       page={this.state.page}

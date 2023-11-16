@@ -68,6 +68,11 @@ class AdminUserTable extends Component {
 
     componentDidMount() {
         let eventTalent = this.createEventTalentData()
+        console.log(this.props.filter_curated)
+        console.log(eventTalent)
+        if(this.props.filter_curated) {
+          eventTalent=eventTalent.filter(row => row["curated"] === true)
+        }
         let [rows,columns] = this.constructTableData(eventTalent)
         this.setState({
             eventTalent: eventTalent,
