@@ -67,10 +67,10 @@ const Header = (props) => {
                             <img src={require("../../assets/images/logo.png")} alt="FASHIONXT" style={{ width: "200px" }} />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}></Typography>
-                        <PopupState variant="popover" popupId="demo-popup-menu">
+                        <PopupState variant="popover" popupId="demo-popup-menu" >
                             {(popupState) => (
                                 <React.Fragment>
-                                <Button variant="contained" {...bindTrigger(popupState)}>
+                                <Button style={{marginRight: "1%"}} variant="contained" {...bindTrigger(popupState)}>
                                     Switch Role
                                 </Button>
                                 <Menu {...bindMenu(popupState)}>
