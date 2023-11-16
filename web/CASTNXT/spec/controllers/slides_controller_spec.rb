@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-RSpec.describe UserController, type: :controller do
+RSpec.describe SlidesController, type: :controller do
     before do
         Producer.destroy_all
         Client.destroy_all
@@ -31,36 +29,45 @@ RSpec.describe UserController, type: :controller do
         @client.update(slide_ids:[@slide._id])
         @event.update(slide_ids:[@slide._id])
         @event.update(client_ids:[@client._id])
-        @negotiation = Negotiation.create(event_id:@event._id,client_id:@client._id,intermediateSlides:[@slide._id.to_str],finalSlides:[@slide._id.to_str])
+        @negotiation = Negotiation.create(event_id:@event._id,client_id:@client._id,intermediateSlides:[@slide._id.to_str])
         @comment = Comment.create(slide_id:@slide._id,client_id:@client._id,content:"hahaaha",owner:@client.name)
     end
-    describe "get" do
-        it "should work if logged in" do
+    describe "Slides#create" do
+        it "should not create if login as client" do
+            session[:userType]="CLIENT"
+            session[:userName]="eventtest_client"
+            session[:userEmail]="eventtest_client@gmail.com"
+            session[:userId]=@client._id.to_str
+            post :create,params:{event_id: @event._id.to_str}
+            expect(response).to_not have_http_status(:success)
+        end
+        it "should  create if login as user" do
             session[:userType]="USER"
             session[:userName]="eventtest_user"
             session[:userEmail]="eventtest_user@gmail.com"
             session[:userId]=@talent._id.to_str
-            get :index 
+            post :create,params:{event_id: @event._id.to_str,formData:"{\"name\":\"aaaa\",\"email\":\"aaaa@gmail.com\",\"talentName\":\"aaaa\",\"state\":\"Kentucky\",\"city\":\"Ames\",\"paymentLink\":\"paypal.me/random\"}"}
             expect(response).to have_http_status(:success)
         end
-        it "should work is event finalized and accepted" do
+        it "should create if login as admin" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            data1={ @client._id.to_str => {slideIds: [@slide._id.to_str]}}
+            data2={@slide._id.to_str => {formData:"{\"name\":\"aaaa\",\"email\":\"aaaa@gmail.com\",\"talentName\":\"aaaa\",\"state\":\"Kentucky\",\"city\":\"Ames\",\"paymentLink\":\"paypal.me/random\"}",curated:false}}
+            post :create,params:{event_id: @event._id.to_str,formData:"{\"name\":\"aaaa\",\"email\":\"aaaa@gmail.com\",\"talentName\":\"aaaa\",\"state\":\"Kentucky\",\"city\":\"Ames\",\"paymentLink\":\"paypal.me/random\"}",clients:data1,slides:data2}
+            expect(response).to have_http_status(:success)
+        end
+        it "should create a new slide" do
             session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            @event = Event.update(status:"FINALIZED")
-            get :index 
+            session[:userName]="eventtest_user2"
+            session[:userEmail]="eventtest_user2@gmail.com"
+            session[:userId]=@talent2._id.to_str
+            post :create,params:{event_id: @event._id.to_str,formData:"{\"name\":\"aaaa\",\"email\":\"aaaa@gmail.com\",\"talentName\":\"aaaa\",\"state\":\"Kentucky\",\"city\":\"Ames\",\"paymentLink\":\"paypal.me/random\"}"}
             expect(response).to have_http_status(:success)
         end
-        it "should work is event finalized and rejected" do
-            session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            @negotiation.destroy
-            @event = Event.update(status:"FINALIZED")
-            get :index 
-            expect(response).to have_http_status(:success)
-        end
+
     end
 end
+

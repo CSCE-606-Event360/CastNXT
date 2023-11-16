@@ -3,15 +3,15 @@ class CommentsController < ApplicationController
   # GET /admin/events/:id/comments/:id
   # GET /client/events/:id/comments/:id
   # GET /user/events/:id/comments/:id
-  def show
-    if "ADMIN".casecmp? session[:userType]
-      show_comment
-    elsif "CLIENT".casecmp? session[:userType]
-      show_comment
-    else
-      render json: {redirect_path: "/"}, status: 403
-    end
-  end
+  # def show
+  #   if "ADMIN".casecmp? session[:userType]
+  #     show_comment
+  #   elsif "CLIENT".casecmp? session[:userType]
+  #     show_comment
+  #   else
+  #     render json: {redirect_path: "/"}, status: 403
+  #   end
+  # end
 
 # POST /admin/events/:id/comments/:id
   def create
@@ -37,28 +37,28 @@ class CommentsController < ApplicationController
   private
 
   
-  def show_comment
-    begin
-      if is_user_logged_in?("ADMIN")
-        comment = get_comments(params[:slide_id], params[:client_id])
-      elsif is_user_logged_in?("CLIENT")
-      	comment = get_comments(params[:slide_id], params[:client_id])
-      else
-        render json: {redirect_path: "/"}, status: 403
-      end
-    rescue Exception
-      render json: {comment: Exception}, status: 500
-    end
-  end
+  # def show_comment
+  #   begin
+  #     if is_user_logged_in?("ADMIN")
+  #       comment = get_comments(params[:slide_id], params[:client_id])
+  #     elsif is_user_logged_in?("CLIENT")
+  #     	comment = get_comments(params[:slide_id], params[:client_id])
+  #     else
+  #       render json: {redirect_path: "/"}, status: 403
+  #     end
+  #   rescue Exception
+  #     render json: {comment: Exception}, status: 500
+  #   end
+  # end
 
   
-  def get_comment slideId, clientId
-    return Comment.find_by(:slide_id => slideId, :client_id => clientId)
-  end
+  # def get_comment slideId, clientId
+  #   return Comment.find_by(:slide_id => slideId, :client_id => clientId)
+  # end
 
-  def get_comments slideId, clientId
-    return Comment.where(:slide_id => slideId, :client_id => clientId)
-  end
+  # def get_comments slideId, clientId
+  #   return Comment.where(:slide_id => slideId, :client_id => clientId)
+  # end
 
   def create_comment_producer slideId, clientId, commentContent, commentOwner
     client = Client.find_by(:_id => clientId)

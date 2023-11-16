@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UserController, type: :controller do
+RSpec.describe NegotiationsController, type: :controller do
     before do
         Producer.destroy_all
         Client.destroy_all
@@ -31,36 +31,48 @@ RSpec.describe UserController, type: :controller do
         @client.update(slide_ids:[@slide._id])
         @event.update(slide_ids:[@slide._id])
         @event.update(client_ids:[@client._id])
-        @negotiation = Negotiation.create(event_id:@event._id,client_id:@client._id,intermediateSlides:[@slide._id.to_str],finalSlides:[@slide._id.to_str])
+        @negotiation = Negotiation.create(event_id:@event._id,client_id:@client._id,intermediateSlides:[@slide._id.to_str])
         @comment = Comment.create(slide_id:@slide._id,client_id:@client._id,content:"hahaaha",owner:@client.name)
     end
-    describe "get" do
-        it "should work if logged in" do
+    describe "post" do
+        it "should not as a user" do
             session[:userType]="USER"
             session[:userName]="eventtest_user"
             session[:userEmail]="eventtest_user@gmail.com"
             session[:userId]=@talent._id.to_str
-            get :index 
-            expect(response).to have_http_status(:success)
+            
+            post :create,params:{event_id:@event._id.to_str,client_id:@client._id.to_str}
+            expect(response).to_not have_http_status(:success)
         end
-        it "should work is event finalized and accepted" do
-            session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            @event = Event.update(status:"FINALIZED")
-            get :index 
-            expect(response).to have_http_status(:success)
+        it "should create as an admin" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventtest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            post :create,params:{event_id: @event._id.to_str,client_id:@client._id,finalSlides:[@slide._id.to_str]}
+            expect(Negotiation.find_by(_id:@negotiation._id).finalSlides).to_not be_empty 
         end
-        it "should work is event finalized and rejected" do
-            session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            @negotiation.destroy
-            @event = Event.update(status:"FINALIZED")
-            get :index 
-            expect(response).to have_http_status(:success)
+        it "should create as a client" do
+            session[:userType]="CLIENT"
+            session[:userName]="eventtest_client"
+            session[:userEmail]="eventtest_client@gmail.com"
+            session[:userId]=@client._id.to_str
+            post :create,params:{event_id: @event._id.to_str,intermediateSlides:[@slide._id.to_str]}
+            expect(Negotiation.find_by(_id:@negotiation._id).intermediateSlides).to_not be_empty 
+        end
+        it "should not when session is dirty" do
+            session.clear
+            session[:userId]=@admin._id.to_str
+            session[:userType]="ADMIN"
+            post :create,params:{event_id:@event._id.to_str,client_id:@client._id.to_str}
+            expect(response).to_not have_http_status(:success)
+        end
+        it "should not when session is dirty as a client" do
+            session.clear
+            session[:userId]=@client._id.to_str
+            session[:userType]="client"
+            post :create,params:{event_id:@event._id.to_str,client_id:@client._id.to_str}
+            expect(response).to_not have_http_status(:success)
         end
     end
 end

@@ -377,13 +377,13 @@ class EventsController < ApplicationController
     return Comment.find_by(:_id => commentId)
   end
 
-  def get_slide_comment slideId
-    return Comment.find(:slide_id => slideId)
-  end  
+  # def get_slide_comment slideId
+  #   return Comment.find(:slide_id => slideId)
+  # end  
 
-  def get_slide_comments slideId
-    return Comment.where(:slide_id => slideId)
-  end
+  # def get_slide_comments slideId
+  #   return Comment.where(:slide_id => slideId)
+  # end
 
   def get_slide_client_comments slideId, clientId
     return Comment.where(:slide_id => slideId, :client_id => clientId)

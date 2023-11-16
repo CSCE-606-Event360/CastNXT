@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UserController, type: :controller do
+RSpec.describe ClientController, type: :controller do
     before do
         Producer.destroy_all
         Client.destroy_all
@@ -35,30 +35,11 @@ RSpec.describe UserController, type: :controller do
         @comment = Comment.create(slide_id:@slide._id,client_id:@client._id,content:"hahaaha",owner:@client.name)
     end
     describe "get" do
-        it "should work if logged in" do
-            session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            get :index 
-            expect(response).to have_http_status(:success)
-        end
-        it "should work is event finalized and accepted" do
-            session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            @event = Event.update(status:"FINALIZED")
-            get :index 
-            expect(response).to have_http_status(:success)
-        end
-        it "should work is event finalized and rejected" do
-            session[:userType]="USER"
-            session[:userName]="eventtest_user"
-            session[:userEmail]="eventtest_user@gmail.com"
-            session[:userId]=@talent._id.to_str
-            @negotiation.destroy
-            @event = Event.update(status:"FINALIZED")
+        it "should work in all cases" do
+            session[:userType]="CLIENT"
+            session[:userName]="eventtest_client"
+            session[:userEmail]="eventtest_client@gmail.com"
+            session[:userId]=@client._id.to_str
             get :index 
             expect(response).to have_http_status(:success)
         end

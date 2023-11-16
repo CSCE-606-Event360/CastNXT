@@ -77,6 +77,8 @@ class SlidesController < ApplicationController
     
   def update_event_slides data
     data.keys.each do |slideId|
+      puts slideId
+      puts data[slideId]
       slide = get_slide(slideId)
       update_slide_data(slide, data[slideId])
     end
