@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post 'login', :on => :collection
     post 'signup', :on => :collection
     post 'forgotPassword', :on => :collection
+    post 'changeRole', :on => :collection
   end
   
   resources :user, only: [:index] do

@@ -63,7 +63,18 @@ class HomeController < ApplicationController
       render json: {comment: "Internal Error!"}, status: 500
     end
   end
-  
+  # POST /home/changeRole
+  def changeRole 
+    begin 
+      if session[:userId] != nil
+        session[:userType]=params[:userType]
+        render json: {redirect_path: get_redirect_path}, status: 200
+      end
+    rescue Exception => e
+      session.clear
+      redirect_to root_path
+    end
+  end
   # POST /home/login
   def login
     begin
@@ -152,13 +163,13 @@ class HomeController < ApplicationController
   def create_user params
     puts (params)
     user = Auth.create(:name => params[:name], :email => params[:email], :password => params[:password], :user_type => params[:type], :is_valid => true)
-    if "ADMIN".casecmp? params[:type]
-      Producer.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
-    elsif "CLIENT".casecmp? params[:type]
-      Client.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
-    else
-      Talent.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
-    end
+    # if "ADMIN".casecmp? params[:type]
+    Producer.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
+    # elsif "CLIENT".casecmp? params[:type]
+    Client.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
+    # else
+    Talent.create(:_id => user._id.to_str, :name => user.name, :email => user.email, :is_valid => true)
+    
   end
 
   def get_redirect_path
