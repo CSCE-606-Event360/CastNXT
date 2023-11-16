@@ -17,3 +17,7 @@ rbenv local 2.6.6
 rails s
 
 EDITOR="vim" rails credentials:edit
+
+yarn run coverage
+npx cucumber-js
+yarn run test

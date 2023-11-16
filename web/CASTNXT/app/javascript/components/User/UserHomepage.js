@@ -77,13 +77,39 @@ class UserHomepage extends Component {
     onReset =()=>{
         location.reload();
     }
-    handleChange = (e, value) => {
+    handleChange = (e) => {
+        const { name, value } = e.target;
+        const sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
         this.setState({
-            [e.target.name]: e.target.value
+            [e.target.name]: sanitizedValue
         })
+        // Validate date range if both eventdateStart and eventdateEnd are present
+        if (name === 'eventdateStart' && this.state.eventdateEnd) {
+            this.validateDateRange(value, this.state.eventdateEnd);
+        } else if (name === 'eventdateEnd' && this.state.eventdateStart) {
+            this.validateDateRange(this.state.eventdateStart, value);
+        }
     }
 
-    onSubmit = () => {
+    validateDateRange = (start, end) => {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+    
+        if (startDate > endDate) {
+            // Set a warning message in the state
+            this.setState({
+                dateRangeWarning: "Event end date must be greater than start date",
+            });
+        } else {
+            // Clear the warning message and set the end date
+            this.setState({
+                dateRangeWarning: ""
+            });
+        }
+    };
+    
+
+    onSubmit = () => {  
         
         let tableDataCopy = this.state.tabValue===0 ? this.state.acceptingTableData:this.state.submittedTableData;
         
@@ -282,7 +308,13 @@ class UserHomepage extends Component {
                                 <IsPaidFilter isPaidFilterSelected = {this.onIsPaidFilterSelected}></IsPaidFilter>
                                 <Button variant="outlined" onClick = {this.onReset} style={commonStyle}>Reset Filter</Button> 
                                 <Button variant="outlined" onClick = {this.onSubmit} style={commonStyle}>Submit Filter</Button> 
-                            
+                                
+                                {this.state.dateRangeWarning && (
+                                    <div style={{ color: 'red', marginTop: '10px' }}>
+                                        {this.state.dateRangeWarning}
+                                    </div>
+                                )}
+                                    
                                 {this.state.tabValue === 0 &&
                                     <TableContainer component={Paper}>
                                         <Table aria-label="simple table">

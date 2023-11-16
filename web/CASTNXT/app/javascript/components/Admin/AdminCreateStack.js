@@ -104,9 +104,23 @@ class AdminCreateStack extends Component {
         entries: entries
       })
     }
+
+    makeSlideChanges = () => {
+      let entries = this.state.entries
+      for(var i=0; i<entries.length; i++) {
+        if(entries[i].updated === true)
+          this.props.properties.data.slides[entries[i].id].formData = entries[i].formData
+      }
+    }
     
     makeMasterStack = () => {
-      const slides = this.state.dataSlides;
+      this.makeSlideChanges()
+      let slides = JSON.parse(JSON.stringify(this.props.properties.data.slides))
+      
+      // for(var key in slides) {
+      //   slides[key].formData = JSON.stringify(slides[key].formData)
+      // }
+      // const slides = this.state.dataSlides;
 
       Object.keys(slides).forEach(key => slides[key].formData = JSON.stringify(slides[key].formData));
 
@@ -123,7 +137,7 @@ class AdminCreateStack extends Component {
           status: true,
           message: res.data.comment
         })
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((err) => {
         this.setState({

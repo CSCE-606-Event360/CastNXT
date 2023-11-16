@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Form from "@rjsf/core";
-
+import {getCities} from '../../utils/FormsUtils';
 import "./Forms.css";
 
 class ImageWidget extends React.Component {
@@ -21,7 +21,8 @@ class Slide extends Component {
       schema: props.schema,
       uiSchema: props.uiSchema,
       formData: props.formData,
-      fields: {}
+      fields: {},
+      cities: [], // Add a state variable for cities
     };
   }
   
@@ -61,12 +62,17 @@ class Slide extends Component {
         }
       }
     })
+    console.log("Form Data State:", props.formData.state);
+    const selectedState = props.formData.state; // Assuming the state field is named 'state'
+    const cities = getCities(selectedState);
+    console.log("Form Data Selected Cities:", cities);
       return {
             ...state,
             schema: schemaCopy,
             uiSchema: uiSchemaCopy,
             formData: formDataCopy,
-            fields: fieldsCopy
+            fields: fieldsCopy,
+            cities: cities,
       }
   }
   
@@ -76,6 +82,29 @@ class Slide extends Component {
           value={props.value} />
       );            
     };
+  
+    customizeUISchema = () => {
+      const { uiSchema, cities } = this.state;
+  
+      // Add or modify the UI schema for the city dropdown based on your requirements
+      const modifiedUISchema = {
+        ...uiSchema,
+        city: {
+          title: "City",
+          "ui:placeholder": "Select a city",
+          description: "Enter your city of residence.",
+          enum: cities,
+          type: "string"
+      }
+       
+      // enumOptions: cities.map((city) => ({ label: city, value: city })),
+
+      };
+      console.log(modifiedUISchema);
+      console.log(this.state.uiSchema);
+      return modifiedUISchema;
+    };
+  
   
   render() {
     // schema and uiSchema are to be used from state and not props since image preview is being added in state
@@ -89,7 +118,7 @@ class Slide extends Component {
         <div className="container" style={{ backgroundColor: "white", height: "100%"}}>
           <Form
               schema={this.state.schema}
-              uiSchema={this.state.uiSchema}
+              uiSchema={this.customizeUISchema()} // Use the customized UI schema
               onChange={this.props.onFormDataChange}
               formData={this.state.formData}
               submitButtonMessage={"Submit"}

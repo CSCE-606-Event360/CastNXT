@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {Component,useState} from "react"
 import Form from "@rjsf/core";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,7 +15,8 @@ import Alert from "@mui/material/Alert";
 import axios from "axios";
 
 import Slide from "../Forms/Slide";
-
+import AdminUserTable from "./AdminUserTable";
+import { rowsToEntries, slidesToEntries } from "../../utils/AdminDataUtils";
 
 class AdminCreateClientStack extends Component {
     constructor(props) {
@@ -178,19 +179,24 @@ class AdminCreateClientStack extends Component {
       })
     }
 
+    onRowClick = (rowData, _event, _details) => {
+        //initial loads and subsequent ones that follow.
+        const isCurated = rowData?.curated || this.props?.properties?.data?.slides[`${rowData.row.uniqId}`]?.curated;
+        const slideData = rowsToEntries(rowData, isCurated)
+        console.log(slideData);
+    }
+
     render() {
         
         return(
             <div>
                 
-                <div style={{marginTop: "1%"}}>
-                
-                    <p>Use this page to create client-specific slide decks</p>
-
+              <div style={{marginTop: "1%"}}>
+                  <p>Use this page to create client-specific slide decks</p>
+                  <AdminUserTable properties={this.props.properties} handleRowClick={this.onRowClick}/>
+                  {
                     <div>
-
                         <div className="col-md-8 offset-md-2">
-                        
                           <Paper>
                             <TableContainer>
                               <Table size="medium">
@@ -270,9 +276,10 @@ class AdminCreateClientStack extends Component {
                         }
                         
                     </div>
+                  }
                 </div>
             </div>
-        )
+          )
     }
 }
 
