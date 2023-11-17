@@ -77,24 +77,32 @@ class UserHomepage extends Component {
     onReset =()=>{
         location.reload();
     }
-    handleChange = (e) => {
+    handleTitleChange = (e) => {
         const { name, value } = e.target;
         const sanitizedValue = value.replace(/[^a-zA-Z0-9\s]/g, '');
         this.setState({
             [e.target.name]: sanitizedValue
         })
+    }
+    handleDateChange = (e) => {
+        const { name, value } = e.target;
         // Validate date range if both eventdateStart and eventdateEnd are present
-        if (name === 'eventdateStart' && this.state.eventdateEnd) {
-            this.validateDateRange(value, this.state.eventdateEnd);
-        } else if (name === 'eventdateEnd' && this.state.eventdateStart) {
-            this.validateDateRange(this.state.eventdateStart, value);
+        if (name === 'eventdateStart') {
+            this.setState({ eventdateStart: value }, () => {
+                this.validateDateRange(this.state.eventdateStart, this.state.eventdateEnd);
+            });
+        } else if (name === 'eventdateEnd') {
+            this.setState({ eventdateEnd: value }, () => {
+                this.validateDateRange(this.state.eventdateStart, this.state.eventdateEnd);
+            });
         }
     }
 
     validateDateRange = (start, end) => {
         const startDate = new Date(start);
         const endDate = new Date(end);
-    
+        console.log(startDate);
+        console.log(endDate);
         if (startDate > endDate) {
             // Set a warning message in the state
             this.setState({
@@ -297,11 +305,11 @@ class UserHomepage extends Component {
                                 <div><b>Category Filter</b></div>
                                 <CategoryFilter categoryFilterValueSelected = {this.onCategoryFilterValueSelected}></CategoryFilter>
                                 <FormControl fullWidth>
-                                <DatePickerWrapperStart id='eventdateStart' name='eventdateStart' variant='outlined' onChange={this.handleChange} value={this.state.eventdateStart} style={commonStyle} />
-                                <DatePickerWrapperEnd id='eventdateEnd' name='eventdateEnd' variant='outlined' onChange={this.handleChange} value={this.state.eventdateEnd} style={commonStyle} />
+                                <DatePickerWrapperStart id='eventdateStart' name='eventdateStart' variant='outlined' value={this.state.eventdateStart} style={commonStyle} onChange={this.handleDateChange} />
+                                <DatePickerWrapperEnd id='eventdateEnd' name='eventdateEnd' variant='outlined' value={this.state.eventdateEnd} style={commonStyle} onChange={this.handleDateChange} />
                                 </FormControl>
                                 <FormControl fullWidth>
-                                <TextField  id="title-textfield" name="title" label="Event title" variant="outlined" onChange={this.handleChange} value={this.state.title}/>
+                                <TextField  id="title-textfield" name="title" label="Event title" variant="outlined" value={this.state.title} onChange={this.handleTitleChange}/>
                                 </FormControl>
                                 <LocationFilter handleLocationFilterChange = {this.handleLocationFilterChange}></LocationFilter>
                                 <div><b>Is the event paid ?</b></div>
