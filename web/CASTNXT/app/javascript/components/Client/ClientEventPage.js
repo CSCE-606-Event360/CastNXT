@@ -40,25 +40,31 @@ class ClientEventPage extends Component {
                 </div>
                 
                 <div className="container">
-                    <div className="user-events">
+                    <div className="user-events" style={{ position: "relative" }}>
                         <h2> {this.state.title} </h2>
+                        <Button size="small" variant="outlined" style={{ position: "absolute", right: 5 }} onClick={this.back}>Back to Homepage</Button>
                         <h6> {this.state.description} </h6>
                         <h6>Location : {this.state.location}, {this.state.statename}</h6>
                         <h6>Date : {this.state.eventdate}</h6>
                         <h6>Category : {this.state.category}</h6>
-                        
-                        <Button size="small" variant="outlined" style={{float: "right", marginRight: "1%"}} onClick={this.back}>Back to Homepage</Button>
-                        
+                        <hr />
                         <div>
                             <Box sx={{ width: '100%', marginRight: '-2%' }}>
                               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={this.state.tabValue} onChange={this.handleTabChange} centered>
+                                {/* <Tabs value={this.state.tabValue} onChange={this.handleTabChange} centered>
                                   <Tab label="Event Preferences" />
                                   <Tab label="Event Feedback" />
-                                </Tabs>
+                                </Tabs> */}
+                                <div>
+                                    <ClientEventSummary properties={properties} />
+                                </div>
+
+                                <div>
+                                    <ClientEventFeedback properties={properties} />
+                                </div>
                               </Box>
                               
-                              {this.state.tabValue === 0 &&
+                              {/* {this.state.tabValue === 0 &&
                                   <div>
                                     <ClientEventSummary properties={properties} />
                                   </div>
@@ -68,10 +74,11 @@ class ClientEventPage extends Component {
                                   <div>
                                     <ClientEventFeedback properties={properties} />
                                   </div>
-                              }
+                              } */}
                              
                             </Box>
                         </div>
+                        
                         
                     </div>
                 </div>
