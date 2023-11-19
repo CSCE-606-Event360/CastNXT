@@ -142,12 +142,12 @@ class HomeController < ApplicationController
     return false
   end
 
-  def generate_resetlink email
-    require 'securerandom'
-    rCode = SecureRandom.hex(32)
-    rsetCode = AuthReset.create(:resetuuid => rCode)
-    return rCode
-  end
+  # def generate_resetlink email
+  #   require 'securerandom'
+  #   rCode = SecureRandom.hex(32)
+  #   rsetCode = AuthReset.create(:resetuuid => rCode)
+  #   return rCode
+  # end
   
   def create_user params
     puts (params)

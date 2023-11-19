@@ -52,8 +52,8 @@ class EventsController < ApplicationController
         render json: {redirect_path: "/"}, status: 403
       end
       
-    rescue Exception
-      render json: {comment: "Internal Error!"}, status: 500
+    # rescue Exception
+    #   render json: {comment: "Internal Error!"}, status: 500
     end
   end
 
@@ -98,8 +98,8 @@ class EventsController < ApplicationController
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    rescue Exception
-      render json: {comment: "Internal Error!"}, status: 500
+    # rescue Exception
+    #   render json: {comment: "Internal Error!"}, status: 500
     end
   end
 
@@ -112,8 +112,8 @@ class EventsController < ApplicationController
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    rescue Exception
-      render json: {comment: "Internal Error!"}, status: 500
+    # rescue Exception
+    #   render json: {comment: "Internal Error!"}, status: 500
     end
   end
 
