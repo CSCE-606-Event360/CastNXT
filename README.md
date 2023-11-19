@@ -95,7 +95,7 @@ heroku container:release web -a castnxtfall
 ```
 ### Set env variables for mongodb
 ``` 
-MONGODB_URI = mongodb+srv://castnxt:csce606@cluster0.ltb3kqd.mongodb.net/castnxt_development?retryWrites=true&w=majority 
+MONGODB_URI = please contact ksshen2023@tamu.edu to get this immediately.
 
 RAILS_ENV = development
 ```
