@@ -10,8 +10,9 @@ Web-App to Automate Talent Audition, Placement, Replacement and Tabulate Pay
 
 # How to run tests?
 
-This repo has both Javascript and Ruby on Rails test-cases. Please run them in the following way respectfully.
-
+This repo has both Javascript and Ruby on Rails test-cases. Please run them in the following way respectfully. 
+# Notice
+The root directory of the code is ./web/CASTNXT. All commands should be executed in that directory instead of the current directory.
 # ReactJS
 1. We rely on JEST for UTs in ReactJS. 
 2. After navigating to the code folder, you can either run the command `npm run coverage` or `npm run test`, this shall show you test coverage.
@@ -39,6 +40,20 @@ https://github.com/tamu-edu-students/CastNXT_Spring2023/tree/main/documentation/
 CastNXT:[https://castnxtfall-4acce6c18be3.herokuapp.com/](https://castnxtfall-4acce6c18be3.herokuapp.com/)
 
 ## Steps for Local:
+Prerequisites: mongodb:[https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/) \
+create a mongodb admin user
+```
+>use admin;
+>db.createUser(
+  {
+    user: "root",
+    pwd: "example",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+// The username and password should match the definition in `config/mongoid.yml` 
+```
+\
 Clone -> Go to web/CASTNXT
 ```
 /bin/bash --login
@@ -59,6 +74,7 @@ rails s -p $PORT -b $IP
 ```
 ---
 ## Steps for Heroku:
+prerequisites: docker
 > Heroku Build takes a lot of space right now.
 Upgrade volume to >=15GB.
 
