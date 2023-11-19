@@ -196,7 +196,7 @@ class AdminCreateClientStack extends Component {
                 
               <div style={{marginTop: "1%"}}>
                   <p>Use this page to create client-specific slide decks</p>
-                  <AdminUserTable properties={this.props.properties} handleRowClick={this.onRowClick} filter_curated = {true} />
+                  <AdminUserTable heading="Selected Users" properties={this.props.properties} handleRowClick={this.onRowClick} filter_curated = {true} />
                   {
                     <div>
                         <div className="col-md-8 offset-md-2">

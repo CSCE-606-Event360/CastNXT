@@ -150,7 +150,7 @@ class AdminUserTable extends Component {
                   <div className="col-md-8 offset-md-2" style={{marginTop: '10px'}}>
                     <Paper>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                        <h4 style={{ margin: 0, flex: 1 }}>Registered Users</h4>
+                        <h4 style={{ margin: 0, flex: 1 }}>{this.props.heading}</h4>
                         <div style={{ marginLeft: 'auto' }}>
                           {/* <button onClick={this.handleDownloadClick}>Download Table</button> */}
                           <IconButton color="primary" aria-label="Download Table" onClick={this.handleDownloadClick}>
