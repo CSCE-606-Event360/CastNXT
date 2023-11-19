@@ -77,6 +77,13 @@ heroku container:login
 heroku container:push web -a castnxtfall
 heroku container:release web -a castnxtfall
 ```
+### Set env variables for mongodb
+``` 
+MONGODB_URI = mongodb+srv://castnxt:csce606@cluster0.ltb3kqd.mongodb.net/castnxt_development?retryWrites=true&w=majority 
+
+RAILS_ENV = development
+```
+The mongodb is for this semester. You have to create your own mongodb database for later development.
 
 ### Tail the logs:
 ```
@@ -84,12 +91,14 @@ heroku logs --tail -a castnxtfall
 ```
 
 ## Running tests:
+React
 ```
 yarn run test
 ```
-
-THERE ARE NO RUBY TESTS. THEY DO NOT WORK. THEY ARE DEPRECATED. (See todo list #2)
-
+rails
+```
+bundle exec rspec
+```
 ## Common Errors:
 Problem:
 RVM is not a function, selecting rubies with 'rvm use ...' will not work.
