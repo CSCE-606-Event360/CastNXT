@@ -11,8 +11,10 @@ Web-App to Automate Talent Audition, Placement, Replacement and Tabulate Pay
 # How to run tests?
 
 This repo has both Javascript and Ruby on Rails test-cases. Please run them in the following way respectfully. 
+
 # Notice
-The root directory of the code is ./web/CASTNXT. All commands should be executed in that directory instead of the current directory.
+The root directory of the code is ./web/CASTNXT. All commands should be executed in that directory instead of the current directory. Also, the branch we are working on is spring_version.
+
 # ReactJS
 1. We rely on JEST for UTs in ReactJS. 
 2. After navigating to the code folder, you can either run the command `npm run coverage` or `npm run test`, this shall show you test coverage.
