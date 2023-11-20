@@ -71,6 +71,9 @@ npm install -g yarn
 bundle exec rails webpacker:install
 ```
 ```
+sudo service mongodb start
+```
+```
 rails db:migrate RAILS_ENV=development
 rails s -p $PORT -b $IP
 ```
@@ -170,3 +173,6 @@ rails webpacker:compile
 ```
 
 but sometimes it won't work because your change isn't detected so just add a space to the FE code I guess...
+# Contact
+Kexuan Shen: ksshen2023@tamu.edu
+Rohith Nomula: rohith_yogi@tamu.edu
