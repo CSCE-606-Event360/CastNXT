@@ -70,6 +70,7 @@ class SlidesController < ApplicationController
           event = get_event(eventId)
           formData= "{\"name\":\"#{params[:data][:talentName]}\",\"email\":\"#{params[:data][:email]}\",\"talentName\":\"#{params[:data][:talentName]}\",\"state\":\"Texas\",\"city\":\"Houston\",\"paymentLink\":\"paypal.me/random\"}"
           create_slide(eventId, talent._id, formData)
+          render json: {comment: "Updated tables"}, status: 200
         else
           eventId = params[:event_id]
           event = get_event(eventId)

@@ -114,10 +114,13 @@ class AdminUserTable extends Component {
       const dataToSend = this.newRow
       console.log(dataToSend);
       axios.post('/admin/events/'+eventId+'/slides', { aName: dataToSend["talentName"],data: dataToSend })
-          .then(response => {
+          .then(res => {
+            this.setState({
+              status: true,
+              message: res.data.comment
           })
-          .catch(error => {
-          });
+          })
+
   }
     handleCellEditCommit = (params) => {
       const { id, field, value } = params;
