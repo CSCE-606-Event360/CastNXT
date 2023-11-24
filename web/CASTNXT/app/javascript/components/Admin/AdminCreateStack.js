@@ -224,7 +224,7 @@ class AdminCreateStack extends Component {
                         <hr />
                           <table>
                             <thead>
-                              <tr><td>Current Stack</td></tr>
+                              <tr><td>Selected Talent Stack</td></tr>
                             </thead>
                             <tbody>
                               {this.state.curatedStack.map((row, index) => {

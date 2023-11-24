@@ -52,7 +52,7 @@ class AdminEventHome extends Component {
         return(
             <div>
                 <div style={{marginTop: "1%"}}>
-                    <p>Use this page to update an event.</p>
+                    <p>Use this page to update an event status - click on any status below.</p>
                     
                     <div>
                       <div className="col-md-8 offset-md-2">
