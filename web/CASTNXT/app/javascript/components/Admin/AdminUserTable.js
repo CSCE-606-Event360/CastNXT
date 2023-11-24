@@ -94,6 +94,36 @@ class AdminUserTable extends Component {
         filterModel: model
       })
     }
+    addNewRow = () => {
+      this.setState(prevState => ({
+          rows: [...prevState.rows, { id: prevState.rows.length + 1,  }]
+      }));
+      const eventId = window.location.href.split('/').pop();
+      
+    }
+    // handleRowChange = (newData, id) => {
+    //   this.setState(prevState => ({
+    //       rows: prevState.rows.map(row => row.id === id ? newData : row)
+    //   }));
+    // }
+    handleCellEditCommit = (params) => {
+      const { id, field, value } = params;
+      this.setState(prevState => {
+          const rows = [...prevState.rows];
+          const rowIndex = rows.findIndex(row => row.id === id);
+          if (rowIndex > -1) {
+              const updatedRow = { ...rows[rowIndex], [field]: value };
+              rows[rowIndex] = updatedRow;
+
+              // 如果这是新添加的行，则更新 newRow
+              if (this.newRow && this.newRow.id === id) {
+                  this.newRow = updatedRow;
+              }
+          }
+          return { rows };
+      });
+  }
+
 
     handleDownloadClick = () => {
       // Convert your data to CSV format
@@ -158,7 +188,9 @@ class AdminUserTable extends Component {
                           </IconButton>
                         </div>
                       </div>
+                      <button onClick={this.addNewRow}>Add Row</button>
                       <DataGrid
+                        onCellEditCommit={this.handleCellEditCommit}
                         testId='userTableDataGrid'
                         // rows={this.state.rows}
                         // columns={this.state.columns}
@@ -171,6 +203,7 @@ class AdminUserTable extends Component {
                           if (col.field === 'paymentLink') {
                             return {
                               ...col,
+                              editable: true,
                               renderCell: (params) => (
                                 <button
                                   onClick={() => this.handlePayMeLinkClick(params.row.paymentLink)}
@@ -181,7 +214,10 @@ class AdminUserTable extends Component {
                               ),
                             };
                           }
-                          return col;
+                          return {
+                            ...col,
+                            editable: true,
+                          };
                         })}
                         pageSize={10}
                         rowsPerPageOptions={[10]}

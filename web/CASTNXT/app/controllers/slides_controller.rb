@@ -60,6 +60,17 @@ class SlidesController < ApplicationController
   def create_producer_slide
     begin
       if is_user_logged_in?("ADMIN")
+        # if params[:aName] != nil
+        #   eventId = params[:event_id]
+        #   talent =Talent.find_by(:name => "anonymous")
+        #   if talent.nil?
+            
+        #   end
+        #   formData = ""
+
+        #   event = get_event(eventId)
+        #   create_slide(eventId, talentId, formData)
+        # else
         eventId = params[:event_id]
         event = get_event(eventId)
         
@@ -67,6 +78,7 @@ class SlidesController < ApplicationController
         update_event_slides(params[:slides])
         
         render json: {comment: "Updated Event Decks!"}, status: 200
+        # end
       else
         render json: {redirect_path: "/"}, status: 403
       end
