@@ -60,25 +60,25 @@ class SlidesController < ApplicationController
   def create_producer_slide
     begin
       if is_user_logged_in?("ADMIN")
-        # if params[:aName] != nil
-        #   eventId = params[:event_id]
-        #   talent =Talent.find_by(:name => "anonymous")
-        #   if talent.nil?
-            
-        #   end
-        #   formData = ""
-
-        #   event = get_event(eventId)
-        #   create_slide(eventId, talentId, formData)
-        # else
-        eventId = params[:event_id]
-        event = get_event(eventId)
-        
-        update_event_clients(event, params[:clients])
-        update_event_slides(params[:slides])
-        
-        render json: {comment: "Updated Event Decks!"}, status: 200
-        # end
+        if params[:aName] != nil
+          eventId = params[:event_id]
+          begin 
+            talent =Talent.find_by(:email => params[:data][:email])
+          rescue Exception
+            talent=Talent.create(:name => params[:data][:talentName],:email=>params[:data][:email])
+          end
+          event = get_event(eventId)
+          formData= "{\"name\":\"#{params[:data][:talentName]}\",\"email\":\"#{params[:data][:email]}\",\"talentName\":\"#{params[:data][:talentName]}\",\"state\":\"Texas\",\"city\":\"Houston\",\"paymentLink\":\"paypal.me/random\"}"
+          create_slide(eventId, talent._id, formData)
+        else
+          eventId = params[:event_id]
+          event = get_event(eventId)
+          
+          update_event_clients(event, params[:clients])
+          update_event_slides(params[:slides])
+          
+          render json: {comment: "Updated Event Decks!"}, status: 200
+        end
       else
         render json: {redirect_path: "/"}, status: 403
       end

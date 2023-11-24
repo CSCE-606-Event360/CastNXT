@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver';
 import IconButton from '@material-ui/core/IconButton';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import "./Admin.css";
+import axios from "axios";
 
 class AdminUserTable extends Component {
     constructor(props) {
@@ -19,6 +20,7 @@ class AdminUserTable extends Component {
             columns: [],
             filterModel: {items: []}
         }
+        this.newRow = null;
     }
     
     constructTableData = (eventTalent) => {
@@ -95,17 +97,28 @@ class AdminUserTable extends Component {
       })
     }
     addNewRow = () => {
-      this.setState(prevState => ({
-          rows: [...prevState.rows, { id: prevState.rows.length + 1,  }]
-      }));
-      const eventId = window.location.href.split('/').pop();
-      
+      const newRow = { id: this.state.rows.length + 1, /* 其他初始值 */ };
+        this.newRow = newRow; // 更新最新行的变量
+        this.setState(prevState => ({
+            rows: [...prevState.rows, newRow]
+        }));
     }
-    // handleRowChange = (newData, id) => {
-    //   this.setState(prevState => ({
-    //       rows: prevState.rows.map(row => row.id === id ? newData : row)
-    //   }));
-    // }
+    handleRowChange = (newData, id) => {
+      this.setState(prevState => ({
+          rows: prevState.rows.map(row => row.id === id ? newData : row)
+      }));
+    }
+    handleSave = () => {
+      // 取得需要发送的数据
+      const eventId = window.location.href.split('/').pop();
+      const dataToSend = this.newRow
+      console.log(dataToSend);
+      axios.post('/admin/events/'+eventId+'/slides', { aName: dataToSend["talentName"],data: dataToSend })
+          .then(response => {
+          })
+          .catch(error => {
+          });
+  }
     handleCellEditCommit = (params) => {
       const { id, field, value } = params;
       this.setState(prevState => {
@@ -189,6 +202,7 @@ class AdminUserTable extends Component {
                         </div>
                       </div>
                       <button onClick={this.addNewRow}>Add Row</button>
+                      <button onClick={this.handleSave}>Save Data</button>
                       <DataGrid
                         onCellEditCommit={this.handleCellEditCommit}
                         testId='userTableDataGrid'
