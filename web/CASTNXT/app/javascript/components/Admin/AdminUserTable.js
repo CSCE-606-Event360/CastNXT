@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import "./Admin.css";
 import axios from "axios";
+import { UsStates, getCities} from '../../utils/FormsUtils';
 
 class AdminUserTable extends Component {
     constructor(props) {
@@ -112,6 +113,19 @@ class AdminUserTable extends Component {
       // 取得需要发送的数据
       const eventId = window.location.href.split('/').pop();
       const dataToSend = this.newRow
+      console.log(dataToSend)
+      if(!dataToSend['state'] || !UsStates.includes(dataToSend['state'])){
+        dataToSend['state']="Oregon"
+        dataToSend["city"]="Portland"
+      }
+      if(!dataToSend['city'] || !getCities(dataToSend['state']).includes(dataToSend['city'])){
+        dataToSend['city'] = getCities(dataToSend['state'])[0];
+      }
+      
+      if(!dataToSend["talentName"] || !dataToSend["email"]) {
+        alert("Name and email should be provided");
+        return
+      }
       console.log(dataToSend);
       axios.post('/admin/events/'+eventId+'/slides', { aName: dataToSend["talentName"],data: dataToSend })
           .then(res => {
@@ -119,7 +133,7 @@ class AdminUserTable extends Component {
               status: true,
               message: res.data.comment
           })
-          })
+        })
 
   }
     handleCellEditCommit = (params) => {
