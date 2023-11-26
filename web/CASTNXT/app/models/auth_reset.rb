@@ -1,8 +1,8 @@
-# class AuthReset
-#     include Mongoid::Document
-#     include Mongoid::Timestamps
+class AuthReset
+    include Mongoid::Document
+    include Mongoid::Timestamps
 
-#     belongs_to :auth
+    belongs_to :auth
     
-#     field :resetuuid, type: String
-#   end
+    field :resetuuid, type: String
+  end

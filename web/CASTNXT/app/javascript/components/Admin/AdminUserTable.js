@@ -133,6 +133,7 @@ class AdminUserTable extends Component {
               status: true,
               message: res.data.comment
           })
+          window.location.reload();
         })
 
   }
