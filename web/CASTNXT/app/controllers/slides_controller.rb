@@ -52,26 +52,39 @@ class SlidesController < ApplicationController
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    rescue Exception
-      render json: {comment: "Internal Error!"}, status: 500
+    # rescue Exception
+    #   render json: {comment: "Internal Error!"}, status: 500
     end
   end
   
   def create_producer_slide
     begin
       if is_user_logged_in?("ADMIN")
-        eventId = params[:event_id]
-        event = get_event(eventId)
-        
-        update_event_clients(event, params[:clients])
-        update_event_slides(params[:slides])
-        
-        render json: {comment: "Updated Event Decks!"}, status: 200
+        if params[:aName] != nil
+          eventId = params[:event_id]
+          begin 
+            talent =Talent.find_by(:email => params[:data][:email])
+          rescue Exception
+            talent=Talent.create(:name => params[:data][:talentName],:email=>params[:data][:email])
+          end
+          event = get_event(eventId)
+          formData= "{\"name\":\"#{params[:data][:talentName]}\",\"email\":\"#{params[:data][:email]}\",\"talentName\":\"#{params[:data][:talentName]}\",\"state\":\"#{params[:data][:state]}\",\"city\":\"#{params[:data][:city]}\",\"paymentLink\":\"add your link here\"}"
+          create_slide(eventId, talent._id, formData)
+          render json: {comment: "Updated tables"}, status: 200
+        else
+          eventId = params[:event_id]
+          event = get_event(eventId)
+          
+          update_event_clients(event, params[:clients])
+          update_event_slides(params[:slides])
+          
+          render json: {comment: "Updated Event Decks!"}, status: 200
+        end
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    rescue Exception
-      render json: {comment: "Internal Error!"}, status: 500
+    # rescue Exception
+    #   render json: {comment: "Internal Error!"}, status: 500
     end
   end
     

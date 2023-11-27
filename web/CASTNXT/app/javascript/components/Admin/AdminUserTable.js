@@ -7,6 +7,8 @@ import { saveAs } from 'file-saver';
 import IconButton from '@material-ui/core/IconButton';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import "./Admin.css";
+import axios from "axios";
+import { UsStates, getCities} from '../../utils/FormsUtils';
 
 class AdminUserTable extends Component {
     constructor(props) {
@@ -19,6 +21,7 @@ class AdminUserTable extends Component {
             columns: [],
             filterModel: {items: []}
         }
+        this.newRow = null;
     }
     
     constructTableData = (eventTalent) => {
@@ -94,6 +97,64 @@ class AdminUserTable extends Component {
         filterModel: model
       })
     }
+    addNewRow = () => {
+      const newRow = { id: this.state.rows.length + 1, /* 其他初始值 */ };
+        this.newRow = newRow; // 更新最新行的变量
+        this.setState(prevState => ({
+            rows: [...prevState.rows, newRow]
+        }));
+    }
+    handleRowChange = (newData, id) => {
+      this.setState(prevState => ({
+          rows: prevState.rows.map(row => row.id === id ? newData : row)
+      }));
+    }
+    handleSave = () => {
+      // 取得需要发送的数据
+      const eventId = window.location.href.split('/').pop();
+      const dataToSend = this.newRow
+      console.log(dataToSend)
+      if(!dataToSend['state'] || !UsStates.includes(dataToSend['state'])){
+        dataToSend['state']="Oregon"
+        dataToSend["city"]="Portland"
+      }
+      if(!dataToSend['city'] || !getCities(dataToSend['state']).includes(dataToSend['city'])){
+        dataToSend['city'] = getCities(dataToSend['state'])[0];
+      }
+      
+      if(!dataToSend["talentName"] || !dataToSend["email"]) {
+        alert("Name and email should be provided");
+        return
+      }
+      console.log(dataToSend);
+      axios.post('/admin/events/'+eventId+'/slides', { aName: dataToSend["talentName"],data: dataToSend })
+          .then(res => {
+            this.setState({
+              status: true,
+              message: res.data.comment
+          })
+          window.location.reload();
+        })
+
+  }
+    handleCellEditCommit = (params) => {
+      const { id, field, value } = params;
+      this.setState(prevState => {
+          const rows = [...prevState.rows];
+          const rowIndex = rows.findIndex(row => row.id === id);
+          if (rowIndex > -1) {
+              const updatedRow = { ...rows[rowIndex], [field]: value };
+              rows[rowIndex] = updatedRow;
+
+              // 如果这是新添加的行，则更新 newRow
+              if (this.newRow && this.newRow.id === id) {
+                  this.newRow = updatedRow;
+              }
+          }
+          return { rows };
+      });
+  }
+
 
     handleDownloadClick = () => {
       // Convert your data to CSV format
@@ -150,7 +211,7 @@ class AdminUserTable extends Component {
                   <div className="col-md-8 offset-md-2" style={{marginTop: '10px'}}>
                     <Paper>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                        <h4 style={{ margin: 0, flex: 1 }}>Registered Users</h4>
+                        <h4 style={{ margin: 0, flex: 1 }}>{this.props.heading}</h4>
                         <div style={{ marginLeft: 'auto' }}>
                           {/* <button onClick={this.handleDownloadClick}>Download Table</button> */}
                           <IconButton color="primary" aria-label="Download Table" onClick={this.handleDownloadClick}>
@@ -158,7 +219,10 @@ class AdminUserTable extends Component {
                           </IconButton>
                         </div>
                       </div>
+                      <button onClick={this.addNewRow}>Add Row</button>
+                      <button onClick={this.handleSave}>Save Data</button>
                       <DataGrid
+                        onCellEditCommit={this.handleCellEditCommit}
                         testId='userTableDataGrid'
                         // rows={this.state.rows}
                         // columns={this.state.columns}
@@ -171,6 +235,7 @@ class AdminUserTable extends Component {
                           if (col.field === 'paymentLink') {
                             return {
                               ...col,
+                              editable: true,
                               renderCell: (params) => (
                                 <button
                                   onClick={() => this.handlePayMeLinkClick(params.row.paymentLink)}
@@ -181,7 +246,10 @@ class AdminUserTable extends Component {
                               ),
                             };
                           }
-                          return col;
+                          return {
+                            ...col,
+                            editable: true,
+                          };
                         })}
                         pageSize={10}
                         rowsPerPageOptions={[10]}

@@ -26,7 +26,7 @@ class AdminEditEvent extends Component {
         super(props)
         this.state = {
             tabValue: 0,
-            selectedFormNo: "",
+            // selectedFormNo: "",
             schema: JSON.stringify(getSchema('No').dataSchema),
             uischema: JSON.stringify(getSchema('No').uiSchema),
             title: this.props.properties.data.title,
@@ -37,6 +37,7 @@ class AdminEditEvent extends Component {
             category: this.props.properties.data.category,
             is_paid_event: this.props.properties.data.is_paid_event,
             formIds: this.props.properties.formIds !== undefined ? this.props.properties.formIds : [],
+            selectedFormNo: this.getFormIdFromTitle(this.props.properties.data.title),
             formData: null,
             newFormData: {},
             newFormId: "",
@@ -44,8 +45,20 @@ class AdminEditEvent extends Component {
             status: "",
             message: ""
         }
+        this.onFormLoadClick();
     }
     
+    
+    getFormIdFromTitle = (title) => {
+        console.log(this.props.properties.formIds);
+        const formIds = this.props.properties.formIds;
+        var matchingForm = "";
+        if(formIds){
+            matchingForm = formIds.find(formId => formId[1] === title);
+        }
+        return matchingForm ? matchingForm[0] : ""; 
+    };
+
     handleTabChange = (event, newValue) => {
         this.setState({
             tabValue: newValue

@@ -27,15 +27,22 @@ class ClientEventSummary extends Component {
         let slides = this.props.properties.data.slides
         let finalizedIds = this.props.properties.data.finalizedIds
         let tableRows = []
-
+        // console.log(slides);
         for(var key in slides) {
+            // console.log(slides[key]);
+            // console.log(slides[key].formData.gender);
             tableRows.push({
                 id: key,
-                name: slides[key].talentName,
+                name: slides[key].formData.talentName,
+                gender : slides[key].formData.gender,
+                birthDate : slides[key].formData.birthDate,
+                email : slides[key].formData.email,
+                state : slides[key].formData.state,
+                city : slides[key].formData.city,
                 finalized: finalizedIds.includes(key)
             })
         }
-        
+        // console.log(tableRows);
         this.setState({
             summaryRows: tableRows
         })
@@ -108,12 +115,18 @@ class ClientEventSummary extends Component {
                 </div>
                 
                 <div className="row">
-                    <div className="col-md-4 offset-md-4">
+                    <div className="col-md-8 offset-md-2 text-center">
+                    <TableContainer component={Paper} style={{ overflowX: "auto", overflowY: "auto" }}>
                         <Table size="small">
                             <TableHead style={{ backgroundColor: "#3498DB" }}>
                                 <TableRow>
                                     <TableCell align="center">Preference</TableCell>
                                     <TableCell align="center">Name</TableCell>
+                                    <TableCell align="center">Gender</TableCell>
+                                    <TableCell align="center">BirthDate</TableCell>
+                                    <TableCell align="center">Email</TableCell>
+                                    <TableCell align="center">State</TableCell>
+                                    <TableCell align="center">City</TableCell>
                                 </TableRow>
                             </TableHead>
                             
@@ -141,6 +154,11 @@ class ClientEventSummary extends Component {
                                                     >
                                                         <TableCell align="center">{idx+1}</TableCell>
                                                         <TableCell align="center">{row.name}</TableCell>
+                                                        <TableCell align="center">{row.gender}</TableCell>
+                                                        <TableCell align="center">{row.birthDate}</TableCell>
+                                                        <TableCell align="center">{row.email}</TableCell>
+                                                        <TableCell align="center">{row.state}</TableCell>
+                                                        <TableCell align="center">{row.city}</TableCell>
                                                     </TableRow>
                                                 </Ref>
                                                 )}
@@ -153,26 +171,27 @@ class ClientEventSummary extends Component {
                                   </Droppable>
                             </DragDropContext>
                         </Table>
-                        <br />
-                        {this.state.eventStatus !== "FINALIZED" &&
-                            <Button size="small" variant="contained" onClick={this.updatePreferences}>Update Preferences</Button>
-                        }
-                        
-                        {(this.state.status !== "" && this.state.status) &&
-                            <div>
-                                <br />
-                                <Alert severity="success">{this.state.message}</Alert>
-                                <br />
-                            </div>
-                        }
-                        
-                        {(this.state.status !== "" && !this.state.status) &&
-                            <div>
-                                <br />
-                                <Alert severity="error">Error: {this.state.message}</Alert>
-                                <br />
-                            </div>
-                        }
+                    </TableContainer>
+                    <br />
+                    {this.state.eventStatus !== "FINALIZED" &&
+                        <Button size="small" variant="contained" onClick={this.updatePreferences}>Update Preferences</Button>
+                    }
+                    
+                    {(this.state.status !== "" && this.state.status) &&
+                        <div>
+                            <br />
+                            <Alert severity="success">{this.state.message}</Alert>
+                            <br />
+                        </div>
+                    }
+                    
+                    {(this.state.status !== "" && !this.state.status) &&
+                        <div>
+                            <br />
+                            <Alert severity="error">Error: {this.state.message}</Alert>
+                            <br />
+                        </div>
+                    }
                     </div>
                 </div>
             </div>

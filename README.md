@@ -10,7 +10,10 @@ Web-App to Automate Talent Audition, Placement, Replacement and Tabulate Pay
 
 # How to run tests?
 
-This repo has both Javascript and Ruby on Rails test-cases. Please run them in the following way respectfully.
+This repo has both Javascript and Ruby on Rails test-cases. Please run them in the following way respectfully. 
+
+# Notice
+The root directory of the code is ./web/CASTNXT. All commands should be executed in that directory instead of the current directory. Also, the branch we are working on is spring_version.
 
 # ReactJS
 1. We rely on JEST for UTs in ReactJS. 
@@ -39,6 +42,20 @@ https://github.com/tamu-edu-students/CastNXT_Spring2023/tree/main/documentation/
 CastNXT:[https://castnxtfall-4acce6c18be3.herokuapp.com/](https://castnxtfall-4acce6c18be3.herokuapp.com/)
 
 ## Steps for Local:
+Prerequisites: mongodb:[https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/) \
+create a mongodb admin user
+```
+>use admin;
+>db.createUser(
+  {
+    user: "root",
+    pwd: "example",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+// The username and password should match the definition in `config/mongoid.yml` 
+```
+\
 Clone -> Go to web/CASTNXT
 ```
 /bin/bash --login
@@ -54,11 +71,15 @@ npm install -g yarn
 bundle exec rails webpacker:install
 ```
 ```
+sudo service mongodb start
+```
+```
 rails db:migrate RAILS_ENV=development
 rails s -p $PORT -b $IP
 ```
 ---
 ## Steps for Heroku:
+prerequisites: docker
 > Heroku Build takes a lot of space right now.
 Upgrade volume to >=15GB.
 
@@ -77,6 +98,13 @@ heroku container:login
 heroku container:push web -a castnxtfall
 heroku container:release web -a castnxtfall
 ```
+### Set env variables for mongodb
+``` 
+MONGODB_URI = please contact ksshen2023@tamu.edu to get this immediately.
+
+RAILS_ENV = development
+```
+The mongodb is for this semester. You have to create your own mongodb database for later development.
 
 ### Tail the logs:
 ```
@@ -84,12 +112,14 @@ heroku logs --tail -a castnxtfall
 ```
 
 ## Running tests:
+React
 ```
 yarn run test
 ```
-
-THERE ARE NO RUBY TESTS. THEY DO NOT WORK. THEY ARE DEPRECATED. (See todo list #2)
-
+rails
+```
+bundle exec rspec
+```
 ## Common Errors:
 Problem:
 RVM is not a function, selecting rubies with 'rvm use ...' will not work.
@@ -143,3 +173,6 @@ rails webpacker:compile
 ```
 
 but sometimes it won't work because your change isn't detected so just add a space to the FE code I guess...
+# Contact
+Kexuan Shen: ksshen2023@tamu.edu
+Rohith Nomula: rohith_yogi@tamu.edu

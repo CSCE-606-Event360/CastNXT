@@ -62,10 +62,25 @@ class Slide extends Component {
         }
       }
     })
-    console.log("Form Data State:", props.formData.state);
+    console.log("Form Data State:", props.formData);
     const selectedState = props.formData.state; // Assuming the state field is named 'state'
     const cities = getCities(selectedState);
     console.log("Form Data Selected Cities:", cities);
+    uiSchemaCopy ={
+      ...uiSchemaCopy,
+      city: {
+        title: "City",
+        "ui:placeholder": "Select one city",
+        description: "Enter your city of residence.",
+        enum: cities,
+        type: "string"}
+    }
+    schemaCopy.properties.city= {
+      title: "City",
+      "ui:placeholder": "Select one city",
+      description: "Enter your city of residence.",
+      enum: cities,
+      type: "string"}
       return {
             ...state,
             schema: schemaCopy,
@@ -118,7 +133,7 @@ class Slide extends Component {
         <div className="container" style={{ backgroundColor: "white", height: "100%"}}>
           <Form
               schema={this.state.schema}
-              uiSchema={this.customizeUISchema()} // Use the customized UI schema
+              uiSchema={this.state.uiSchema} // Use the customized UI schema
               onChange={this.props.onFormDataChange}
               formData={this.state.formData}
               submitButtonMessage={"Submit"}

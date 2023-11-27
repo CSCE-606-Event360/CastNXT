@@ -83,7 +83,7 @@ class AdminEventPage extends Component {
                         <div>
                             <Box sx={{ width: "100%", marginRight: "-2%" }}>
                               <Box display="flex" justifyContent="center" width="100%" sx={{ borderBottom: 1, borderColor: "divider" }}>
-                                <Tabs value={this.state.tabValue} onChange={this.handleTabChange} centered variant="scrollable" scrollButtons="auto">
+                                <Tabs value={this.state.tabValue} onChange={this.handleTabChange} variant="scrollable" scrollButtons="auto">
                                     {["Home","Submitted Docs","Selected Docs", "Client Decks", "Finalized Decks", "Summary", "Edit Form"].map((label) => {
                                         return <Tab key={label} label={label} />
                                     })}
