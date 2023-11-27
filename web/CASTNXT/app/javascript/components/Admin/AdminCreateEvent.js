@@ -169,7 +169,7 @@ class AdminCreateEvent extends Component {
             
             setTimeout(() => {
                 window.location.href = "/admin"
-            }, 2500)
+            }, 1000)
         })
         .catch((err) => {
             this.setState({
