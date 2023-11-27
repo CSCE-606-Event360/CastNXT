@@ -167,6 +167,7 @@ class AdminCreateStack extends Component {
                                 {this.state.entries
                                     .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
                                     .map((row) => {
+                                      console.log(this.state.schema)
                                       return(
                                         <TableRow
                                           key={row.id}
