@@ -17,4 +17,5 @@ class Event
   field :category, type: String
   field :delete_time, type: String
   field :is_paid_event, type: String
+  validates :title, uniqueness: true
 end

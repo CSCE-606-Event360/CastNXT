@@ -112,8 +112,10 @@ class EventsController < ApplicationController
       else
         render json: {redirect_path: "/"}, status: 403
       end
-    # rescue Exception
-    #   render json: {comment: "Internal Error!"}, status: 500
+    rescue Mongoid::Errors::Validations => e
+      render json: {comment: "Event with this title exists"}, status: 500
+    rescue
+      render json: {comment: "Internal server error!"}, status: 500
     end
   end
 
@@ -417,7 +419,7 @@ class EventsController < ApplicationController
     timeval = Time.now
     #puts("here here yess")
     #puts(timeval)
-    Event.create(:form_id => params[:form_id], :producer_id => producerId, :status => "ACCEPTING", :title => params[:title], :description => params[:description], :location => params[:location], :statename => params[:statename], :eventdate => params[:eventdate], :category => params[:category], :delete_time => "timeval", :is_paid_event => params[:is_paid_event])
+    Event.create!(:form_id => params[:form_id], :producer_id => producerId, :status => "ACCEPTING", :title => params[:title], :description => params[:description], :location => params[:location], :statename => params[:statename], :eventdate => params[:eventdate], :category => params[:category], :delete_time => "timeval", :is_paid_event => params[:is_paid_event])
 
   end
 end
