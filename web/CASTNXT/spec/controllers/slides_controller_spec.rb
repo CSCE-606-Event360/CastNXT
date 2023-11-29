@@ -67,6 +67,16 @@ RSpec.describe SlidesController, type: :controller do
             post :create,params:{event_id: @event._id.to_str,formData:"{\"name\":\"aaaa\",\"email\":\"aaaa@gmail.com\",\"talentName\":\"aaaa\",\"state\":\"Kentucky\",\"city\":\"Ames\",\"paymentLink\":\"paypal.me/random\"}"}
             expect(response).to have_http_status(:success)
         end
+        it "should create a new user and slide in anonymous mode" do
+            session[:userType]="ADMIN"
+            session[:userName]="eventtest"
+            session[:userEmail]="eventest@gmail.com"
+            session[:userId]=@admin._id.to_str
+            # data1={ @client._id.to_str => {slideIds: [@slide._id.to_str]}}
+            data={email:"tabletest@gmail",talentName:"tabletest"}
+            post :create,params:{event_id: @event._id.to_str,aName:"test",data: data}
+            expect(response).to have_http_status(:success)
+        end
 
     end
 end

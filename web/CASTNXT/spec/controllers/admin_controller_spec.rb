@@ -5,6 +5,7 @@ RSpec.describe AdminController, type: :controller do
         Client.destroy_all
         Talent.destroy_all
         Auth.destroy_all
+        Event.destroy_all
         @auth_test = Auth.create!(name:'admintest_admin', email:'admintest_admin@gmail.com',password:'12345678',user_type:'ADMIN')
         @admin=Producer.create!(name:'admintest_admin', email:'admintest_admin@gmail.com')
         @form = Form.create!(producer_id:@admin._id.to_str,)

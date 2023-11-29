@@ -1,8 +1,8 @@
-class Medium
-  include Mongoid::Document
-  include Mongoid::Timestamps
+# class Medium
+#   include Mongoid::Document
+#   include Mongoid::Timestamps
   
-  belongs_to :slide
+#   belongs_to :slide
   
-  field :attachments, type: Array 
-end
+#   field :attachments, type: Array 
+# end
